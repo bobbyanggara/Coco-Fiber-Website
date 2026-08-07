@@ -1,4 +1,4 @@
-// CV Kreasi Asa Indonesia — site scripts
+// CV Kreasi Asa Indonesia: site scripts
 
 // Mobile menu toggle
 const mobileMenu = document.getElementById('mobileMenu');
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => applyLanguage(currentLang));
    }, 3000);
 })();
 
-// Contact form submission (demo only — no backend wired up)
+// Contact form submission (demo only, no backend wired up)
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
    contactForm.addEventListener('submit', (e) => {

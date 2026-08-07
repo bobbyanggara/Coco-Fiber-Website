@@ -1,4 +1,4 @@
-# CocoFiber AI Assistant — Panduan Setup & Deploy
+# CocoFiber AI Assistant: Panduan Setup & Deploy
 
 Chatbot AI sudah ditambahkan ke situs (tombol "Tanya AI" di FAB kanan bawah).
 Backend-nya butuh di-deploy ke Vercel supaya API key Groq aman.
@@ -8,7 +8,7 @@ Backend-nya butuh di-deploy ke Vercel supaya API key Groq aman.
 1. Buka https://console.groq.com
 2. Daftar / login
 3. Masuk ke menu **API Keys** → **Create API Key**
-4. Salin key-nya (format `gsk_...`), simpan sementara di catatan aman —
+4. Salin key-nya (format `gsk_...`), simpan sementara di catatan aman.
    JANGAN ditulis di file kode manapun.
 
 ## 2. Push project ke GitHub
@@ -38,7 +38,7 @@ git push -u origin main
 5. Klik **Deploy**
 
 Setelah selesai, Vercel akan kasih URL situs kamu, misalnya
-`https://cocofiber-website.vercel.app` — chatbot langsung aktif di situ.
+`https://cocofiber-website.vercel.app`, chatbot langsung aktif di situ.
 
 ## 4. Testing
 
@@ -49,7 +49,7 @@ Setelah selesai, Vercel akan kasih URL situs kamu, misalnya
 ## 5. Update system prompt (opsional)
 
 Kalau mau sesuaikan gaya jawaban, harga, atau info produk, edit bagian
-`SYSTEM_PROMPT` di file `api/chat.js`, lalu push ulang ke GitHub — Vercel
+`SYSTEM_PROMPT` di file `api/chat.js`, lalu push ulang ke GitHub. Vercel
 otomatis re-deploy.
 
 ## 6. Ganti model (opsional)
@@ -58,7 +58,7 @@ Model default yang dipakai adalah `openai/gpt-oss-120b` (model open-weight
 yang di-host Groq, cepat dan murah). Kalau mau ganti ke model Groq lain
 (misalnya yang lebih ringan/murah atau lebih pintar), ubah nilai `model`
 di `api/chat.js`. Daftar model yang tersedia bisa dicek di
-https://console.groq.com/docs/models — Groq cukup sering memperbarui
+https://console.groq.com/docs/models. Groq cukup sering memperbarui
 daftar modelnya, jadi selalu cek link tersebut untuk model terbaru
 sebelum deploy.
 
