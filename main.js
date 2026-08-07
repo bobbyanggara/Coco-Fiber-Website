@@ -224,6 +224,18 @@ if (contactForm) {
       }
    });
 
+   // On desktop, card 3 peeks in at a sliver — clicking it expands the row too
+   const peekCard = track.querySelector('.p-card:nth-child(3)');
+   if (peekCard) {
+      peekCard.addEventListener('click', (e) => {
+         if (track.classList.contains('is-expanded')) return; // already expanded, let links work normally
+         e.preventDefault();
+         track.classList.add('is-expanded');
+         toggle.setAttribute('aria-expanded', 'true');
+         render();
+      });
+   }
+
    // Keep label in sync when language switch is used
    document.addEventListener('DOMContentLoaded', render);
    const langSwitchBtn = document.getElementById('langSwitch');

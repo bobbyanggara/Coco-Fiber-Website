@@ -1004,7 +1004,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   .nav-links{gap:1.5rem;}
 }
 
-/* Large desktop refinement: 2-up product grid */
+/* Large desktop refinement: card 3 peeks in from beside card 2 */
 @media (min-width:1024px){
   .hero h1{font-size:clamp(2.8rem, 5vw, 4rem);}
   .section{padding:5.5rem 2rem;}
@@ -1012,23 +1012,45 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   .product-slider{position:relative;}
 
   .product-track{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
+    display:flex;
     gap:1.1rem;
   }
 
-  .product-track .p-card{display:block !important;}
-
-  /* After the normal reveal, card 2 gives a single quick "peek" nudge —
-     steps out to the side and back — as a cue there's a neighbor product */
-  .product-track .p-card:nth-child(2).fade-in.animate{
-    animation:productPeekNudge 0.9s ease 0.5s 1;
+  .product-track .p-card{
+    display:block !important;
+    flex:0 0 calc((100% - 1.1rem - 64px) / 2);
+    min-width:0;
+    transition:flex-basis 0.5s ease;
   }
 
-  @keyframes productPeekNudge{
-    0%,100%{transform:translateX(0);}
-    45%{transform:translateX(18px);}
+  /* Card 3 peeks in just slightly at the right edge as a visual cue there's more */
+  .product-track .p-card:nth-child(3){
+    flex:0 0 64px;
+    min-width:0;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    transition:flex-basis 0.5s ease;
   }
+  .product-track .p-card:nth-child(3)::after{
+    content:'';
+    position:absolute;inset:0;
+    background:linear-gradient(to right, transparent, var(--husk-950) 85%);
+    opacity:0.6;
+    pointer-events:none;
+    transition:opacity 0.4s ease;
+  }
+
+  /* Expanded: clicking the peek reveals all 3 cards evenly */
+  .product-track.is-expanded{
+    flex-wrap:wrap;
+  }
+  .product-track.is-expanded .p-card,
+  .product-track.is-expanded .p-card:nth-child(3){
+    flex:0 0 calc((100% - 2.2rem) / 3);
+    cursor:default;
+  }
+  .product-track.is-expanded .p-card:nth-child(3)::after{opacity:0;}
 
   .products-toggle{display:none;}
   .product-scroll-cue{display:none;}
