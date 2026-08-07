@@ -110,7 +110,7 @@ Selalu jaga jawaban tetap ringkas, jangan gunakan format markdown berlebihan (bo
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.Groq_API_Key}`,
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'openai/gpt-oss-120b',
