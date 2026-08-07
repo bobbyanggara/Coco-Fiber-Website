@@ -789,17 +789,29 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   border:1px solid var(--line);box-shadow:var(--shadow);
   font-family:var(--sans);font-weight:600;font-size:0.88rem;
   text-decoration:none;
-  transition:transform 0.2s ease, background 0.2s ease;
+  position:relative;overflow:hidden;z-index:0;
+  transition:transform 0.2s ease, color 0.3s ease 0.05s, border-color 0.35s ease;
 }
-.fab-option:hover{transform:translateY(-2px) translateX(-2px);}
+.fab-option::before{
+  content:'';
+  position:absolute;inset:0;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform 0.45s cubic-bezier(.65,0,.35,1);
+  z-index:0;
+}
+.fab-option:hover{transform:translateY(-2px) translateX(-2px);border-color:transparent;}
+.fab-option:hover::before{transform:scaleX(1);}
 .fab-option-icon{
   width:34px;height:34px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  color:#fff;
+  color:#fff;position:relative;z-index:1;
 }
+.fab-option-label{position:relative;z-index:1;}
 .fab-option-icon svg{width:18px;height:18px;}
 .fab-wa .fab-option-icon{background:#25D366;}
-.fab-wa:hover{background:#25D366;color:#fff;}
+.fab-wa::before{background:#25D366;}
+.fab-wa:hover{color:#fff;}
 
 @media (max-width:640px){
   .hero{
@@ -818,7 +830,8 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 }
 
 .fab-ai .fab-option-icon{background:var(--coir-600);}
-.fab-ai:hover{background:var(--coir-600);color:#fff;}
+.fab-ai::before{background:var(--coir-600);}
+.fab-ai:hover{color:#fff;}
 
 /* ---------- AI Chat Widget ---------- */
 .ai-chat-window{
