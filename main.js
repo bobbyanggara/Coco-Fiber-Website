@@ -192,61 +192,6 @@ if (contactForm) {
    });
 }
 
-// Product image slider
-(function initProductSlider() {
-   const track = document.getElementById('productTrack');
-   const prevBtn = document.getElementById('prodPrev');
-   const nextBtn = document.getElementById('prodNext');
-   const dotsWrap = document.getElementById('prodDots');
-   if (!track || !dotsWrap) return;
-
-   const cards = Array.from(track.children);
-
-   // Build dots
-   cards.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.setAttribute('aria-label', `Slide ${i + 1}`);
-      dot.addEventListener('click', () => {
-         cards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-      });
-      dotsWrap.appendChild(dot);
-   });
-   const dots = Array.from(dotsWrap.children);
-
-   function updateDots() {
-      const trackCenter = track.scrollLeft + track.clientWidth / 2;
-      let closest = 0;
-      let closestDist = Infinity;
-      cards.forEach((card, i) => {
-         const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-         const dist = Math.abs(cardCenter - trackCenter);
-         if (dist < closestDist) {
-            closestDist = dist;
-            closest = i;
-         }
-      });
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === closest));
-   }
-
-   function scrollByCard(direction) {
-      const cardWidth = cards[0].getBoundingClientRect().width + 16; // + gap
-      track.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
-   }
-
-   if (prevBtn) prevBtn.addEventListener('click', () => scrollByCard(-1));
-   if (nextBtn) nextBtn.addEventListener('click', () => scrollByCard(1));
-
-   let scrollTimeout;
-   track.addEventListener('scroll', () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(updateDots, 80);
-   });
-
-   window.addEventListener('resize', updateDots);
-   updateDots();
-})();
-
 // Floating contact button (WhatsApp / Email chooser)
 (function initFabContact() {
    const fab = document.getElementById('fabContact');

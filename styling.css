@@ -272,19 +272,16 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 .section-head .eyebrow{justify-content:center;}
 .section-head h2{font-size:clamp(1.6rem,5vw,2.2rem);}
 
-/* ---------- Product slider ---------- */
+/* ---------- Product grid (all cards shown at once, no scroll/swipe) ---------- */
 .product-slider{position:relative;}
 .product-track{
-  display:flex;gap:1.1rem;
-  overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
-  -webkit-overflow-scrolling:touch;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.1rem;
   padding:0.3rem 0.3rem 0.8rem;
-  margin:0 -0.3rem;
-  scrollbar-width:none;
 }
 .product-track::-webkit-scrollbar{display:none;}
 .p-card{
-  scroll-snap-align:start;flex:0 0 78%;
   background:var(--card);
   border:1px solid var(--line);
   border-radius:var(--radius);
@@ -359,6 +356,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 .p-card-table:not(.p-card-table-spec) td:first-child{width:50%;font-family:var(--sans);}
 
 .slider-arrow{
+  display:none;
   position:absolute;top:38%;transform:translateY(-50%);
   width:40px;height:40px;border-radius:50%;
   background:#fff;border:1px solid var(--line);color:var(--ink);
@@ -371,7 +369,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 .slider-prev{left:-8px;}
 .slider-next{right:-8px;}
 
-.slider-dots{display:flex;justify-content:center;gap:0.5rem;margin-top:1.1rem;}
+.slider-dots{display:none;}
 .slider-dots button{
   width:8px;height:8px;border-radius:50%;border:none;
   background:var(--line-strong);padding:0;cursor:pointer;
@@ -898,8 +896,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
    Tablet & up
 ===================================================== */
 @media (min-width:640px){
-  .p-card{flex-basis:62%;}
-  .slider-arrow{display:flex;top:34%;}
+  .product-track{grid-template-columns:repeat(2,1fr);}
   .export-strip{grid-template-columns:repeat(4,1fr);}
   .cert-row{grid-template-columns:repeat(4,1fr);}
   .form-row{grid-template-columns:1fr 1fr;}
@@ -927,9 +924,6 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   .hero{padding:8.5rem 2rem 0;}
   .hero-actions{flex-direction:row;}
 
-  .p-card{flex-basis:40%;}
-  .slider-prev{left:-18px;}
-  .slider-next{right:-18px;}
   .gallery-grid{grid-template-columns:repeat(4,1fr);}
   .article-grid{grid-template-columns:repeat(3,1fr);}
 
@@ -960,15 +954,12 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   .nav-links{gap:1.5rem;}
 }
 
-/* Large desktop refinement + show all 3 product cards side-by-side (no scroll needed) */
+/* Large desktop refinement */
 @media (min-width:1024px){
   .hero h1{font-size:clamp(2.8rem, 5vw, 4rem);}
   .section{padding:5.5rem 2rem;}
 
-  .p-card{flex-basis:calc((100% - 2 * 1.1rem) / 3);}
-  .product-track{overflow-x:visible;}
-  .slider-arrow{display:none;}
-  .slider-dots{display:none;}
+  .product-track{grid-template-columns:repeat(3,1fr);}
 }
 
 /* Extra-small phones */
