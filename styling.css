@@ -960,18 +960,15 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   .nav-links{gap:1.5rem;}
 }
 
-/* Show all 3 product cards side-by-side (no scroll needed) on desktop */
+/* Large desktop refinement + show all 3 product cards side-by-side (no scroll needed) */
 @media (min-width:1024px){
+  .hero h1{font-size:clamp(2.8rem, 5vw, 4rem);}
+  .section{padding:5.5rem 2rem;}
+
   .p-card{flex-basis:calc((100% - 2 * 1.1rem) / 3);}
   .product-track{overflow-x:visible;}
   .slider-arrow{display:none;}
   .slider-dots{display:none;}
-}
-
-/* Large desktop refinement */
-@media (min-width:1024px){
-  .hero h1{font-size:clamp(2.8rem, 5vw, 4rem);}
-  .section{padding:5.5rem 2rem;}
 }
 
 /* Extra-small phones */
