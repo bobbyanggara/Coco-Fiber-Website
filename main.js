@@ -246,85 +246,44 @@ if (contactForm) {
    window.addEventListener('resize', updateDots);
    updateDots();
 
-   // ---------- Auto-scroll (mobile only) ----------
-   // Only runs where the product cards are shown as a horizontal slider
-   // (desktop shows all cards side-by-side, so no auto-scroll needed there).
+   // ---------- Swipe hint (mobile only) ----------
+   // Lets visitors know there are more products beside the current card:
+   // a small "geser" badge that fades out on first interaction, plus a
+   // one-time gentle nudge scroll so the next card peeks into view.
    const mobileSliderQuery = window.matchMedia('(max-width:1023px)');
-   const AUTO_SCROLL_DELAY = 3500; // ms between slides
-   const RESUME_DELAY = 5000; // ms of inactivity before auto-scroll resumes
-   let autoScrollInterval = null;
-   let resumeTimeout = null;
+   const swipeHint = document.getElementById('prodSwipeHint');
 
-   function getCurrentIndex() {
-      const trackCenter = track.scrollLeft + track.clientWidth / 2;
-      let closest = 0;
-      let closestDist = Infinity;
-      cards.forEach((card, i) => {
-         const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-         const dist = Math.abs(cardCenter - trackCenter);
-         if (dist < closestDist) {
-            closestDist = dist;
-            closest = i;
-         }
-      });
-      return closest;
+   function dismissSwipeHint() {
+      if (swipeHint) swipeHint.classList.add('is-hidden');
+      track.removeEventListener('scroll', dismissSwipeHint);
+      track.removeEventListener('touchstart', dismissSwipeHint);
    }
 
-   function autoScrollNext() {
-      const current = getCurrentIndex();
-      if (current >= cards.length - 1) {
+   function nudgeSlider() {
+      if (!mobileSliderQuery.matches || cards.length < 2) return;
+      // Peek the next card, then settle back — signals "there's more here".
+      track.scrollTo({ left: 40, behavior: 'smooth' });
+      setTimeout(() => {
          track.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-         scrollByCard(1);
-      }
+      }, 550);
    }
 
-   function startAutoScroll() {
-      if (autoScrollInterval || cards.length < 2 || !mobileSliderQuery.matches) return;
-      autoScrollInterval = setInterval(autoScrollNext, AUTO_SCROLL_DELAY);
+   if (mobileSliderQuery.matches && cards.length > 1) {
+      track.addEventListener('scroll', dismissSwipeHint, { passive: true });
+      track.addEventListener('touchstart', dismissSwipeHint, { passive: true });
+
+      const sliderObserver = new IntersectionObserver((entries) => {
+         entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+               setTimeout(nudgeSlider, 500);
+               sliderObserver.disconnect();
+            }
+         });
+      }, { threshold: 0.5 });
+      sliderObserver.observe(track);
+   } else if (swipeHint) {
+      swipeHint.classList.add('is-hidden');
    }
-
-   function stopAutoScroll() {
-      if (autoScrollInterval) {
-         clearInterval(autoScrollInterval);
-         autoScrollInterval = null;
-      }
-   }
-
-   function pauseThenResume() {
-      stopAutoScroll();
-      clearTimeout(resumeTimeout);
-      resumeTimeout = setTimeout(startAutoScroll, RESUME_DELAY);
-   }
-
-   // Pause on manual interaction, resume automatically after a short pause
-   ['pointerdown', 'touchstart', 'wheel'].forEach((evt) => {
-      track.addEventListener(evt, pauseThenResume, { passive: true });
-   });
-   [prevBtn, nextBtn].forEach((btn) => {
-      if (btn) btn.addEventListener('click', pauseThenResume);
-   });
-   dots.forEach((dot) => dot.addEventListener('click', pauseThenResume));
-
-   // Pause while the tab is hidden, resume when it's visible again
-   document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-         stopAutoScroll();
-      } else {
-         startAutoScroll();
-      }
-   });
-
-   // Switch auto-scroll on/off if the viewport crosses the mobile breakpoint
-   mobileSliderQuery.addEventListener('change', (e) => {
-      if (e.matches) {
-         startAutoScroll();
-      } else {
-         stopAutoScroll();
-      }
-   });
-
-   startAutoScroll();
 })();
 
 // Floating contact button (WhatsApp / Email chooser)

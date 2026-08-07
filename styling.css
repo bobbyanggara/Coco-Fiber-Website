@@ -284,7 +284,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 }
 .product-track::-webkit-scrollbar{display:none;}
 .p-card{
-  scroll-snap-align:start;flex:0 0 92%;
+  scroll-snap-align:start;flex:0 0 80%;
   background:var(--card);
   border:1px solid var(--line);
   border-radius:var(--radius);
@@ -878,11 +878,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 .ai-chat-send svg{width:17px;height:17px;}
 
 @media (max-width:640px){
-  .ai-chat-window{
-    right:0.6rem;bottom:0.6rem;
-    width:min(320px, calc(100vw - 1.2rem));
-    height:min(70vh, 480px);
-  }
+  .ai-chat-window{right:0.6rem;bottom:0.6rem;width:calc(100vw - 1.2rem);height:calc(100vh - 1.2rem);}
 }
 
 /* ---------- Lightbox ---------- */
