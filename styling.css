@@ -1019,14 +1019,15 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 
   .product-track .p-card{display:block !important;}
 
-  /* First-view entrance: card 2 slides in slightly from the right, a beat after card 1,
-     as a subtle cue that there's a neighbor product */
-  .product-track .p-card:nth-child(2).fade-in{
-    transform:translate(28px, 24px);
-    transition:opacity 0.6s ease 0.12s, transform 0.6s ease 0.12s;
-  }
+  /* After the normal reveal, card 2 gives a single quick "peek" nudge —
+     steps out to the side and back — as a cue there's a neighbor product */
   .product-track .p-card:nth-child(2).fade-in.animate{
-    transform:translate(0, 0);
+    animation:productPeekNudge 0.9s ease 0.5s 1;
+  }
+
+  @keyframes productPeekNudge{
+    0%,100%{transform:translateX(0);}
+    45%{transform:translateX(18px);}
   }
 
   .products-toggle{display:none;}
