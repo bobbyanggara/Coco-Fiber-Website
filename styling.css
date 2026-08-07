@@ -82,8 +82,22 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 }
 .btn-primary{background:var(--coir-600);color:#fff;box-shadow:0 6px 16px rgba(181,113,60,0.28);}
 .btn-primary:hover{background:var(--husk-950);transform:translateY(-2px);box-shadow:0 10px 24px rgba(28,20,16,0.28);}
-.btn-ghost{background:transparent;border-color:rgba(255,255,255,0.45);color:#fff;}
-.btn-ghost:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.8);}
+.btn-ghost{
+  background:transparent;border-color:rgba(255,255,255,0.45);color:#fff;
+  position:relative;overflow:hidden;z-index:0;
+  transition:transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease 0.05s, border-color 0.35s ease;
+}
+.btn-ghost::before{
+  content:'';
+  position:absolute;inset:0;
+  background:#25D366;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform 0.45s cubic-bezier(.65,0,.35,1);
+  z-index:-1;
+}
+.btn-ghost:hover{border-color:#25D366;}
+.btn-ghost:hover::before{transform:scaleX(1);}
 
 /* ---------- Navbar ---------- */
 .navbar{
