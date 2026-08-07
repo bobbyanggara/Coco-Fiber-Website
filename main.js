@@ -192,6 +192,44 @@ if (contactForm) {
    });
 }
 
+// Product grid expand/collapse (show 1 card by default)
+(function initProductsToggle() {
+   const toggle = document.getElementById('productsToggle');
+   const track = document.getElementById('productTrack');
+   if (!toggle || !track) return;
+
+   const label = toggle.querySelector('.products-toggle-label');
+
+   function getLang() {
+      return document.documentElement.lang === 'en' ? 'en' : 'id';
+   }
+
+   function render() {
+      const expanded = track.classList.contains('is-expanded');
+      const lang = getLang();
+      if (label) {
+         label.textContent = expanded
+            ? (lang === 'en' ? label.dataset.enHide : label.dataset.hide)
+            : (lang === 'en' ? label.dataset.enShow : label.dataset.show);
+      }
+   }
+
+   toggle.addEventListener('click', () => {
+      const expanded = track.classList.toggle('is-expanded');
+      toggle.setAttribute('aria-expanded', String(expanded));
+      render();
+
+      if (!expanded) {
+         track.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+   });
+
+   // Keep label in sync when language switch is used
+   document.addEventListener('DOMContentLoaded', render);
+   const langSwitchBtn = document.getElementById('langSwitch');
+   if (langSwitchBtn) langSwitchBtn.addEventListener('click', () => setTimeout(render, 0));
+})();
+
 // Floating contact button (WhatsApp / Email chooser)
 (function initFabContact() {
    const fab = document.getElementById('fabContact');
