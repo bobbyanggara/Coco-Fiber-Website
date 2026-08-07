@@ -1013,6 +1013,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 
   .product-track{
     display:flex;
+    align-items:flex-start;
     gap:1.1rem;
   }
 
@@ -1023,14 +1024,28 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
     transition:flex-basis 0.5s ease;
   }
 
-  /* Card 3 peeks in just slightly at the right edge as a visual cue there's more */
+  /* Cap card height — body content scrolls internally instead of stretching the card */
+  .product-track .p-card:not(:nth-child(3)) .p-card-body{
+    max-height:480px;
+    overflow-y:auto;
+    scrollbar-width:thin;
+    scrollbar-color:var(--line-strong) transparent;
+  }
+  .product-track .p-card:not(:nth-child(3)) .p-card-body::-webkit-scrollbar{width:6px;}
+  .product-track .p-card:not(:nth-child(3)) .p-card-body::-webkit-scrollbar-thumb{
+    background:var(--line-strong);border-radius:999px;
+  }
+
+  /* Card 3 peeks in just slightly at the right edge, cropped to the image height only,
+     as a visual cue there's more */
   .product-track .p-card:nth-child(3){
     flex:0 0 64px;
     min-width:0;
+    max-height:260px;
     position:relative;
     overflow:hidden;
     cursor:pointer;
-    transition:flex-basis 0.5s ease;
+    transition:flex-basis 0.5s ease, max-height 0.5s ease;
   }
   .product-track .p-card:nth-child(3)::after{
     content:'';
@@ -1044,13 +1059,26 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   /* Expanded: clicking the peek reveals all 3 cards evenly */
   .product-track.is-expanded{
     flex-wrap:wrap;
+    align-items:stretch;
   }
   .product-track.is-expanded .p-card,
   .product-track.is-expanded .p-card:nth-child(3){
     flex:0 0 calc((100% - 2.2rem) / 3);
+    max-height:none;
+    overflow:visible;
     cursor:default;
   }
   .product-track.is-expanded .p-card:nth-child(3)::after{opacity:0;}
+  .product-track.is-expanded .p-card-body{
+    max-height:480px;
+    overflow-y:auto;
+    scrollbar-width:thin;
+    scrollbar-color:var(--line-strong) transparent;
+  }
+  .product-track.is-expanded .p-card-body::-webkit-scrollbar{width:6px;}
+  .product-track.is-expanded .p-card-body::-webkit-scrollbar-thumb{
+    background:var(--line-strong);border-radius:999px;
+  }
 
   .products-toggle{display:none;}
   .product-scroll-cue{display:none;}
