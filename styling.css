@@ -774,8 +774,6 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 .fab-option-icon svg{width:18px;height:18px;}
 .fab-wa .fab-option-icon{background:#25D366;}
 .fab-wa:hover{background:#25D366;color:#fff;}
-.fab-email .fab-option-icon{background:var(--frond-700);}
-.fab-email:hover{background:var(--frond-700);color:#fff;}
 
 @media (max-width:640px){
   .fab-contact{right:1rem;bottom:1rem;}
@@ -892,7 +890,13 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 .ai-chat-send svg{width:17px;height:17px;}
 
 @media (max-width:640px){
-  .ai-chat-window{right:0.6rem;bottom:0.6rem;width:calc(100vw - 1.2rem);height:calc(100vh - 1.2rem);}
+  .ai-chat-window{
+    right:0.85rem;bottom:0.85rem;left:0.85rem;
+    width:auto;
+    height:min(72vh, 480px);
+    max-width:400px;
+    margin-left:auto;
+  }
 }
 
 /* ---------- Lightbox ---------- */
