@@ -1,14 +1,14 @@
 # CocoFiber AI Assistant — Panduan Setup & Deploy
 
 Chatbot AI sudah ditambahkan ke situs (tombol "Tanya AI" di FAB kanan bawah).
-Backend-nya butuh di-deploy ke Vercel supaya API key Anthropic aman.
+Backend-nya butuh di-deploy ke Vercel supaya API key Groq aman.
 
-## 1. Buat API Key Anthropic
+## 1. Buat API Key Groq
 
-1. Buka https://console.anthropic.com
+1. Buka https://console.groq.com
 2. Daftar / login
-3. Masuk ke menu **API Keys** → **Create Key**
-4. Salin key-nya (format `sk-ant-...`), simpan sementara di catatan aman —
+3. Masuk ke menu **API Keys** → **Create API Key**
+4. Salin key-nya (format `gsk_...`), simpan sementara di catatan aman —
    JANGAN ditulis di file kode manapun.
 
 ## 2. Push project ke GitHub
@@ -33,7 +33,7 @@ git push -u origin main
 2. Klik **Add New → Project**
 3. Pilih repo GitHub yang baru di-push
 4. Sebelum klik Deploy, buka bagian **Environment Variables**:
-   - Name: `ANTHROPIC_API_KEY`
+   - Name: `GROQ_API_KEY`
    - Value: (tempel API key dari langkah 1)
 5. Klik **Deploy**
 
@@ -52,12 +52,22 @@ Kalau mau sesuaikan gaya jawaban, harga, atau info produk, edit bagian
 `SYSTEM_PROMPT` di file `api/chat.js`, lalu push ulang ke GitHub — Vercel
 otomatis re-deploy.
 
+## 6. Ganti model (opsional)
+
+Model default yang dipakai adalah `openai/gpt-oss-120b` (model open-weight
+yang di-host Groq, cepat dan murah). Kalau mau ganti ke model Groq lain
+(misalnya yang lebih ringan/murah atau lebih pintar), ubah nilai `model`
+di `api/chat.js`. Daftar model yang tersedia bisa dicek di
+https://console.groq.com/docs/models — Groq cukup sering memperbarui
+daftar modelnya, jadi selalu cek link tersebut untuk model terbaru
+sebelum deploy.
+
 ## Catatan biaya
 
 - Hosting Vercel: gratis untuk skala kecil (hobby plan)
-- Anthropic API: berbayar per pemakaian (per token), sangat murah untuk
-  traffic company profile biasa. Cek harga terbaru di
-  https://www.anthropic.com/pricing
+- Groq API: berbayar per pemakaian (per token), umumnya jauh lebih murah
+  dibanding provider lain karena Groq fokus pada inferensi cepat untuk
+  model open-weight. Cek harga terbaru di https://groq.com/pricing
 
 ## Kenapa harus lewat backend (Vercel), bukan langsung dari browser?
 

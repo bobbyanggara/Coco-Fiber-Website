@@ -1,5 +1,5 @@
 // api/chat.js
-// Backend proxy aman ke Anthropic API — API key disimpan di server (env var),
+// Backend proxy aman ke Groq API — API key disimpan di server (env var),
 // TIDAK PERNAH dikirim ke browser.
 
 export default async function handler(req, res) {
@@ -99,30 +99,34 @@ Jika pengunjung ingin baca lebih lanjut, arahkan ke artikel yang relevan di menu
 
 Selalu jaga jawaban tetap ringkas, jangan gunakan format markdown berlebihan (boleh pakai baris baru untuk daftar singkat bila perlu).`;
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    // Groq pakai format OpenAI-compatible: system prompt masuk sebagai
+    // pesan pertama dengan role "system", bukan parameter terpisah.
+    const groqMessages = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      ...trimmedMessages,
+    ];
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.Groq_API_Key,
-        'anthropic-version': '2023-06-01',
+        'Authorization': `Bearer ${process.env.Groq_API_Key}`,
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: 'openai/gpt-oss-120b',
         max_tokens: 500,
-        system: SYSTEM_PROMPT,
-        messages: trimmedMessages,
+        messages: groqMessages,
       }),
     });
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error('Anthropic API error:', errText);
+      console.error('Groq API error:', errText);
       return res.status(502).json({ error: 'Gagal menghubungi AI assistant.' });
     }
 
     const data = await response.json();
-    const textBlock = data.content?.find((block) => block.type === 'text');
-    const reply = textBlock?.text || 'Maaf, saya belum bisa menjawab itu. Silakan hubungi tim kami via WhatsApp.';
+    const reply = data.choices?.[0]?.message?.content || 'Maaf, saya belum bisa menjawab itu. Silakan hubungi tim kami via WhatsApp.';
 
     return res.status(200).json({ reply });
   } catch (err) {
