@@ -291,40 +291,26 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 .section-head .eyebrow{justify-content:center;}
 .section-head h2{font-size:clamp(1.6rem,5vw,2.2rem);}
 
-/* ---------- Product grid (collapsed to 1 card by default, expandable) ---------- */
+/* ---------- Product grid (all cards shown side by side, aligned evenly) ---------- */
 .product-slider{position:relative;}
 .product-track{
   display:grid;
   grid-template-columns:1fr;
   gap:1.1rem;
   padding:0.3rem 0.3rem 0.8rem;
+  align-items:stretch;
 }
-.product-track::-webkit-scrollbar{display:none;}
-
-/* Hide 2nd+ cards until expanded */
-.product-track .p-card:nth-child(n+2){display:none;}
-.product-track.is-expanded .p-card:nth-child(n+2){display:block;}
-
-.products-toggle{
-  display:flex;align-items:center;justify-content:center;gap:0.5rem;
-  width:100%;margin:0.6rem 0 0;padding:0.85rem 1.4rem;
-  background:var(--card);border:1px solid var(--line);border-radius:999px;
-  color:var(--ink);font-family:var(--sans);font-size:0.92rem;font-weight:600;
-  cursor:pointer;transition:background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-.products-toggle:hover{background:var(--coir-600);border-color:var(--coir-600);color:#fff;}
-.products-toggle svg{width:18px;height:18px;transition:transform 0.25s ease;flex-shrink:0;}
-.products-toggle[aria-expanded="true"] svg{transform:rotate(180deg);}
-
-.product-scroll-cue{display:none;}
 
 .p-card{
   background:var(--card);
   border:1px solid var(--line);
   border-radius:var(--radius);
   overflow:hidden;
+  display:flex;
+  flex-direction:column;
   transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
+.p-card-body{display:flex;flex-direction:column;flex:1;}
 .p-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--line-strong);}
 .p-card-img{aspect-ratio:16/10;overflow:hidden;background:linear-gradient(135deg,var(--kraft-200),var(--kraft-100));position:relative;}
 .p-card-img img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -368,6 +354,25 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 }
 .btn-whatsapp:hover{background:#1fb959;}
 .btn-whatsapp svg{width:15px;height:15px;}
+
+.p-card-more-toggle{
+  display:flex;align-items:center;justify-content:center;gap:0.45rem;
+  width:100%;margin-bottom:1.2rem;padding:0.7rem 1.1rem;
+  background:var(--kraft-200);border:1px solid var(--line);border-radius:999px;
+  color:var(--ink);font-family:var(--sans);font-size:0.85rem;font-weight:600;
+  cursor:pointer;transition:background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.p-card-more-toggle:hover{background:var(--coir-600);border-color:var(--coir-600);color:#fff;}
+.p-card-more-toggle svg{width:16px;height:16px;transition:transform 0.25s ease;flex-shrink:0;}
+.p-card-more-toggle[aria-expanded="true"] svg{transform:rotate(180deg);}
+
+.p-card-details{display:none;}
+.p-card-details.is-open{display:block;animation:detailsFadeIn 0.25s ease;}
+
+@keyframes detailsFadeIn{
+  from{opacity:0;transform:translateY(-4px);}
+  to{opacity:1;transform:translateY(0);}
+}
 
 .p-card-quickspecs{
   display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;
@@ -946,7 +951,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
    Tablet & up
 ===================================================== */
 @media (min-width:640px){
-  .product-track.is-expanded{grid-template-columns:repeat(2,1fr);}
+  .product-track{grid-template-columns:repeat(2,1fr);}
   .export-strip{grid-template-columns:repeat(4,1fr);}
   .cert-row{grid-template-columns:repeat(4,1fr);}
   .form-row{grid-template-columns:1fr 1fr;}
@@ -1012,76 +1017,11 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   .product-slider{position:relative;}
 
   .product-track{
-    display:flex;
-    align-items:flex-start;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    align-items:stretch;
     gap:1.1rem;
   }
-
-  .product-track .p-card{
-    display:block !important;
-    flex:0 0 calc((100% - 1.1rem - 64px) / 2);
-    min-width:0;
-    transition:flex-basis 0.5s ease;
-  }
-
-  /* Cap card height — body content scrolls internally instead of stretching the card */
-  .product-track .p-card:not(:nth-child(3)) .p-card-body{
-    max-height:480px;
-    overflow-y:auto;
-    scrollbar-width:thin;
-    scrollbar-color:var(--line-strong) transparent;
-  }
-  .product-track .p-card:not(:nth-child(3)) .p-card-body::-webkit-scrollbar{width:6px;}
-  .product-track .p-card:not(:nth-child(3)) .p-card-body::-webkit-scrollbar-thumb{
-    background:var(--line-strong);border-radius:999px;
-  }
-
-  /* Card 3 peeks in just slightly at the right edge, cropped to the image height only,
-     as a visual cue there's more */
-  .product-track .p-card:nth-child(3){
-    flex:0 0 64px;
-    min-width:0;
-    max-height:260px;
-    position:relative;
-    overflow:hidden;
-    cursor:pointer;
-    transition:flex-basis 0.5s ease, max-height 0.5s ease;
-  }
-  .product-track .p-card:nth-child(3)::after{
-    content:'';
-    position:absolute;inset:0;
-    background:linear-gradient(to right, transparent, var(--husk-950) 85%);
-    opacity:0.6;
-    pointer-events:none;
-    transition:opacity 0.4s ease;
-  }
-
-  /* Expanded: clicking the peek reveals all 3 cards evenly */
-  .product-track.is-expanded{
-    flex-wrap:wrap;
-    align-items:stretch;
-  }
-  .product-track.is-expanded .p-card,
-  .product-track.is-expanded .p-card:nth-child(3){
-    flex:0 0 calc((100% - 2.2rem) / 3);
-    max-height:none;
-    overflow:visible;
-    cursor:default;
-  }
-  .product-track.is-expanded .p-card:nth-child(3)::after{opacity:0;}
-  .product-track.is-expanded .p-card-body{
-    max-height:480px;
-    overflow-y:auto;
-    scrollbar-width:thin;
-    scrollbar-color:var(--line-strong) transparent;
-  }
-  .product-track.is-expanded .p-card-body::-webkit-scrollbar{width:6px;}
-  .product-track.is-expanded .p-card-body::-webkit-scrollbar-thumb{
-    background:var(--line-strong);border-radius:999px;
-  }
-
-  .products-toggle{display:none;}
-  .product-scroll-cue{display:none;}
 }
 
 /* Extra-small phones */

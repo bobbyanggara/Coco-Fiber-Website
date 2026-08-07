@@ -192,54 +192,49 @@ if (contactForm) {
    });
 }
 
-// Product grid expand/collapse (show 1 card by default)
-(function initProductsToggle() {
-   const toggle = document.getElementById('productsToggle');
-   const track = document.getElementById('productTrack');
-   if (!toggle || !track) return;
-
-   const label = toggle.querySelector('.products-toggle-label');
+// Product card "Lihat Spesifikasi & Harga" toggle (collapsed by default, per card)
+(function initProductDetailsToggle() {
+   const toggles = document.querySelectorAll('.p-card-more-toggle');
+   if (!toggles.length) return;
 
    function getLang() {
       return document.documentElement.lang === 'en' ? 'en' : 'id';
    }
 
-   function render() {
-      const expanded = track.classList.contains('is-expanded');
+   function renderLabel(toggle) {
+      const label = toggle.querySelector('.p-card-more-label');
+      if (!label) return;
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
       const lang = getLang();
-      if (label) {
-         label.textContent = expanded
-            ? (lang === 'en' ? label.dataset.enHide : label.dataset.hide)
-            : (lang === 'en' ? label.dataset.enShow : label.dataset.show);
-      }
+      label.textContent = expanded
+         ? (lang === 'en' ? label.dataset.enHide : label.dataset.hide)
+         : (lang === 'en' ? label.dataset.enShow : label.dataset.show);
    }
 
-   toggle.addEventListener('click', () => {
-      const expanded = track.classList.toggle('is-expanded');
-      toggle.setAttribute('aria-expanded', String(expanded));
-      render();
+   toggles.forEach(toggle => {
+      const details = toggle.nextElementSibling;
+      if (!details || !details.classList.contains('p-card-details')) return;
 
-      if (!expanded) {
-         track.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      toggle.addEventListener('click', () => {
+         const expanded = details.classList.toggle('is-open');
+         toggle.setAttribute('aria-expanded', String(expanded));
+         renderLabel(toggle);
+
+         if (!expanded) {
+            toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+         }
+      });
+
+      renderLabel(toggle);
    });
 
-   // On desktop, card 3 peeks in at a sliver — clicking it expands the row too
-   const peekCard = track.querySelector('.p-card:nth-child(3)');
-   if (peekCard) {
-      peekCard.addEventListener('click', (e) => {
-         if (track.classList.contains('is-expanded')) return; // already expanded, let links work normally
-         e.preventDefault();
-         track.classList.add('is-expanded');
-         toggle.setAttribute('aria-expanded', 'true');
-         render();
+   // Keep labels in sync when language switch is used
+   const langSwitchBtn = document.getElementById('langSwitch');
+   if (langSwitchBtn) {
+      langSwitchBtn.addEventListener('click', () => {
+         setTimeout(() => toggles.forEach(renderLabel), 0);
       });
    }
-
-   // Keep label in sync when language switch is used
-   document.addEventListener('DOMContentLoaded', render);
-   const langSwitchBtn = document.getElementById('langSwitch');
-   if (langSwitchBtn) langSwitchBtn.addEventListener('click', () => setTimeout(render, 0));
 })();
 
 // Floating contact button (WhatsApp / Email chooser)
