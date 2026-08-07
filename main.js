@@ -245,45 +245,6 @@ if (contactForm) {
 
    window.addEventListener('resize', updateDots);
    updateDots();
-
-   // ---------- Swipe hint (mobile only) ----------
-   // Lets visitors know there are more products beside the current card:
-   // a small "geser" badge that fades out on first interaction, plus a
-   // one-time gentle nudge scroll so the next card peeks into view.
-   const mobileSliderQuery = window.matchMedia('(max-width:1023px)');
-   const swipeHint = document.getElementById('prodSwipeHint');
-
-   function dismissSwipeHint() {
-      if (swipeHint) swipeHint.classList.add('is-hidden');
-      track.removeEventListener('scroll', dismissSwipeHint);
-      track.removeEventListener('touchstart', dismissSwipeHint);
-   }
-
-   function nudgeSlider() {
-      if (!mobileSliderQuery.matches || cards.length < 2) return;
-      // Peek the next card, then settle back — signals "there's more here".
-      track.scrollTo({ left: 40, behavior: 'smooth' });
-      setTimeout(() => {
-         track.scrollTo({ left: 0, behavior: 'smooth' });
-      }, 550);
-   }
-
-   if (mobileSliderQuery.matches && cards.length > 1) {
-      track.addEventListener('scroll', dismissSwipeHint, { passive: true });
-      track.addEventListener('touchstart', dismissSwipeHint, { passive: true });
-
-      const sliderObserver = new IntersectionObserver((entries) => {
-         entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-               setTimeout(nudgeSlider, 500);
-               sliderObserver.disconnect();
-            }
-         });
-      }, { threshold: 0.5 });
-      sliderObserver.observe(track);
-   } else if (swipeHint) {
-      swipeHint.classList.add('is-hidden');
-   }
 })();
 
 // Floating contact button (WhatsApp / Email chooser)
