@@ -1004,7 +1004,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   .nav-links{gap:1.5rem;}
 }
 
-/* Large desktop refinement: 2-up product grid with peek preview */
+/* Large desktop refinement: 2-up product grid */
 @media (min-width:1024px){
   .hero h1{font-size:clamp(2.8rem, 5vw, 4rem);}
   .section{padding:5.5rem 2rem;}
@@ -1017,44 +1017,19 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
     gap:1.1rem;
   }
 
-  /* Collapsed state: card 1 full, card 2 peeks (clipped), card 3+ hidden */
-  .product-track .p-card{display:block;}
-  .product-track .p-card:nth-child(n+3){display:none;}
+  .product-track .p-card{display:block !important;}
 
-  .product-track:not(.is-expanded) .p-card:nth-child(2){
-    position:relative;
-    max-height:420px;
-    overflow:hidden;
+  /* First-view entrance: card 2 slides in slightly from the right, a beat after card 1,
+     as a subtle cue that there's a neighbor product */
+  .product-track .p-card:nth-child(2).fade-in{
+    transform:translate(28px, 24px);
+    transition:opacity 0.6s ease 0.12s, transform 0.6s ease 0.12s;
   }
-  .product-track:not(.is-expanded) .p-card:nth-child(2)::after{
-    content:'';
-    position:absolute;left:0;right:0;bottom:0;height:140px;
-    background:linear-gradient(to bottom, transparent, var(--card) 88%);
-    pointer-events:none;
+  .product-track .p-card:nth-child(2).fade-in.animate{
+    transform:translate(0, 0);
   }
 
-  /* Expanded state: all cards shown at full height */
-  .product-track.is-expanded .p-card{display:block;max-height:none;overflow:visible;}
-  .product-track.is-expanded .p-card::after{display:none;}
-
-  /* Toggle button floats over the peeking card's fade when collapsed */
-  .products-toggle{
-    display:flex;
-    width:auto;
-    margin:0;
-    position:absolute;
-    right:0.6rem;
-    bottom:0.6rem;
-    z-index:2;
-    box-shadow:0 6px 18px rgba(28,20,16,0.14);
-  }
-  .product-track.is-expanded ~ .products-toggle{
-    position:static;
-    width:100%;
-    margin:0.6rem 0 0;
-    box-shadow:none;
-  }
-
+  .products-toggle{display:none;}
   .product-scroll-cue{display:none;}
 }
 
