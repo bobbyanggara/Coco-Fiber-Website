@@ -105,7 +105,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 }
 .logo-mark{
   width:34px;height:34px;border-radius:9px;
-  background:var(--husk-950);color:var(--kraft-100);
+  background:var(--coir-600);color:var(--kraft-100);
   display:flex;align-items:center;justify-content:center;
   font-family:var(--display);
   font-size:1.05rem;font-weight:700;flex-shrink:0;
@@ -113,7 +113,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 }
 .logo-mark::after{
   content:'';position:absolute;inset:-3px;border-radius:11px;
-  border:1px solid var(--coir-600);opacity:0.5;
+  border:1px solid var(--husk-950);opacity:0.35;
 }
 
 /* Mobile: nav-links collapse into a dropdown panel below the bar */
@@ -754,13 +754,13 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 }
 .fab-main{
   display:flex;align-items:center;gap:0.6rem;
-  background:var(--husk-950);color:#fff;border:none;
+  background:var(--coir-600);color:#fff;border:none;
   padding:0.9rem 1.35rem;border-radius:999px;
   font-family:var(--sans);font-weight:600;font-size:0.92rem;
-  cursor:pointer;box-shadow:0 14px 30px rgba(28,20,16,0.32);
+  cursor:pointer;box-shadow:0 14px 30px rgba(181,113,60,0.35);
   transition:background 0.25s ease, transform 0.2s ease;
 }
-.fab-main:hover{background:var(--coir-600);transform:translateY(-2px);}
+.fab-main:hover{background:var(--coir-500);transform:translateY(-2px);}
 .fab-icon{width:20px;height:20px;flex-shrink:0;}
 .fab-icon-close{display:none;}
 .fab-contact.open .fab-icon-chat{display:none;}
