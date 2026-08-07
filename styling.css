@@ -1010,37 +1010,18 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   .section{padding:5.5rem 2rem;}
 
   .product-track{
-    display:flex;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
     gap:1.1rem;
-    overflow-x:auto;
-    scroll-snap-type:x proximity;
-    scroll-behavior:smooth;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    overscroll-behavior-x:contain;
   }
-  .product-track::-webkit-scrollbar{display:none;}
 
   /* All cards shown, no collapse on desktop */
   .product-track .p-card{
     display:block !important;
-    flex:0 0 calc((100% - 1.1rem) / 2);
-    scroll-snap-align:start;
   }
 
   .products-toggle{display:none;}
-
-  .product-scroll-cue{
-    display:flex;align-items:center;justify-content:center;gap:0.5rem;
-    margin-top:0.9rem;
-    color:var(--ink-soft);font-family:var(--sans);font-size:0.82rem;font-weight:500;
-  }
-  .product-scroll-cue svg{width:16px;height:16px;animation:productScrollNudge 1.6s ease-in-out infinite;}
-}
-
-@keyframes productScrollNudge{
-  0%,100%{transform:translateX(0);}
-  50%{transform:translateX(5px);}
+  .product-scroll-cue{display:none;}
 }
 
 /* Extra-small phones */
