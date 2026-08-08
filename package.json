@@ -3,12 +3,5 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "CocoFiber (CV Kreasi Asa Indonesia) company website with AI chat assistant",
-  "engines": {
-    "node": ">=18"
-  },
-  "scripts": {
-    "dev": "npx vercel dev",
-    "start": "npx serve ."
-  }
+  "description": "CocoFiber (CV Kreasi Asa Indonesia) company website with AI chat assistant"
 }

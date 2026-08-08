@@ -32,9 +32,24 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
    });
 });
 
-// Active nav link is set server-side per page (see data-page/class="active"
-// in each page's navbar). No scroll-spy needed since this is now a
-// multi-page site rather than a single scrolling page.
+// Active nav link on scroll
+function updateActiveMenu() {
+   const sections = document.querySelectorAll('section[id]');
+   const links = document.querySelectorAll('.nav-links a');
+   let current = 'home';
+
+   sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 160) {
+         current = section.getAttribute('id');
+      }
+   });
+
+   links.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+   });
+}
+window.addEventListener('scroll', updateActiveMenu);
+document.addEventListener('DOMContentLoaded', updateActiveMenu);
 
 // Scroll-triggered fade-ins + counters
 const revealTargets = document.querySelectorAll(
@@ -82,9 +97,9 @@ const langSwitch = document.getElementById('langSwitch');
 let currentLang = localStorage.getItem('kreasiasa_lang') || 'id';
 
 const submitLabels = {
-   idle: { id: 'Kirim via WhatsApp', en: 'Send via WhatsApp' },
-   sending: { id: 'Membuka WhatsApp...', en: 'Opening WhatsApp...' },
-   sent: { id: 'Terbuka ✓', en: 'Opened ✓' }
+   idle: { id: 'Kirim Pesan', en: 'Send Message' },
+   sending: { id: 'Mengirim...', en: 'Sending...' },
+   sent: { id: 'Pesan Terkirim ✓', en: 'Message Sent ✓' }
 };
 
 function applyLanguage(lang) {
@@ -156,52 +171,24 @@ document.addEventListener('DOMContentLoaded', () => applyLanguage(currentLang));
    }, 3000);
 })();
 
-// Contact form submission — builds a pre-filled WhatsApp message from the
-// form fields and opens WhatsApp. No backend/email server involved.
-const WHATSAPP_NUMBER = '6285257930183';
+// Contact form submission (demo only, no backend wired up)
 const contactForm = document.querySelector('.contact-form');
-
 if (contactForm) {
    contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-
-      if (!contactForm.checkValidity()) {
-         contactForm.reportValidity();
-         return;
-      }
-
       const btn = contactForm.querySelector('.btn');
-      const name = contactForm.querySelector('input[type="text"]')?.value.trim() || '';
-      const phone = contactForm.querySelector('input[type="tel"]')?.value.trim() || '';
-      const message = contactForm.querySelector('textarea')?.value.trim() || '';
-
-      const lines = currentLang === 'en'
-         ? [
-              'Hello, I would like to get a quotation.',
-              `Name: ${name}`,
-              phone ? `WhatsApp/Phone: ${phone}` : null,
-              message ? `Message: ${message}` : null,
-           ]
-         : [
-              'Halo, saya ingin mendapatkan penawaran.',
-              `Nama: ${name}`,
-              phone ? `WhatsApp/Telepon: ${phone}` : null,
-              message ? `Pesan: ${message}` : null,
-           ];
-
-      const text = lines.filter(Boolean).join('\n');
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 
       btn.textContent = submitLabels.sending[currentLang];
       btn.disabled = true;
 
-      window.open(url, '_blank', 'noopener');
-
       setTimeout(() => {
-         btn.textContent = submitLabels.idle[currentLang];
-         btn.disabled = false;
-         contactForm.reset();
-      }, 1200);
+         btn.textContent = submitLabels.sent[currentLang];
+         setTimeout(() => {
+            btn.textContent = submitLabels.idle[currentLang];
+            btn.disabled = false;
+            contactForm.reset();
+         }, 2200);
+      }, 900);
    });
 }
 
