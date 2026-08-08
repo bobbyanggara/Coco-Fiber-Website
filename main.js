@@ -208,7 +208,50 @@ if (contactForm) {
    });
 }
 
-// Product specs are now always fully visible (no more expand/collapse toggle).
+// Product 3 (derivative products) is collapsed behind a "view more" toggle.
+(function initProductDetailsToggle() {
+   const toggles = document.querySelectorAll('.p-card-more-toggle');
+   if (!toggles.length) return;
+
+   function getLang() {
+      return document.documentElement.lang === 'en' ? 'en' : 'id';
+   }
+
+   function renderLabel(toggle) {
+      const label = toggle.querySelector('.p-card-more-label');
+      if (!label) return;
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      const lang = getLang();
+      label.textContent = expanded
+         ? (lang === 'en' ? label.dataset.enHide : label.dataset.hide)
+         : (lang === 'en' ? label.dataset.enShow : label.dataset.show);
+   }
+
+   toggles.forEach(toggle => {
+      const content = toggle.nextElementSibling;
+      if (!content || !content.classList.contains('p-card-collapsible')) return;
+
+      toggle.addEventListener('click', () => {
+         const expanded = content.classList.toggle('is-open');
+         toggle.setAttribute('aria-expanded', String(expanded));
+         renderLabel(toggle);
+
+         if (!expanded) {
+            toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+         }
+      });
+
+      renderLabel(toggle);
+   });
+
+   // Keep labels in sync when language switch is used
+   const langSwitchBtn = document.getElementById('langSwitch');
+   if (langSwitchBtn) {
+      langSwitchBtn.addEventListener('click', () => {
+         setTimeout(() => toggles.forEach(renderLabel), 0);
+      });
+   }
+})();
 
 // FAQ accordion (article pages)
 (function initFaqAccordion() {
