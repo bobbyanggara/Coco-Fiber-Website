@@ -52,6 +52,11 @@ Kalau mau sesuaikan gaya jawaban, harga, atau info produk, edit bagian
 `SYSTEM_PROMPT` di file `api/chat.js`, lalu push ulang ke GitHub. Vercel
 otomatis re-deploy.
 
+File `api/chat.js` inilah backend serverless yang dipanggil oleh
+`main.js` lewat `fetch('/api/chat')`. File ini sudah termasuk validasi
+input dasar (batas jumlah pesan & panjang teks) dan penanganan error,
+jadi aman dipakai langsung setelah `GROQ_API_KEY` diset di Vercel.
+
 ## 6. Ganti model (opsional)
 
 Model default yang dipakai adalah `openai/gpt-oss-120b` (model open-weight

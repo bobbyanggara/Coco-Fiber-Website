@@ -97,9 +97,9 @@ const langSwitch = document.getElementById('langSwitch');
 let currentLang = localStorage.getItem('kreasiasa_lang') || 'id';
 
 const submitLabels = {
-   idle: { id: 'Kirim Pesan', en: 'Send Message' },
-   sending: { id: 'Mengirim...', en: 'Sending...' },
-   sent: { id: 'Pesan Terkirim ✓', en: 'Message Sent ✓' }
+   idle: { id: 'Kirim via WhatsApp', en: 'Send via WhatsApp' },
+   sending: { id: 'Membuka WhatsApp...', en: 'Opening WhatsApp...' },
+   sent: { id: 'Terbuka ✓', en: 'Opened ✓' }
 };
 
 function applyLanguage(lang) {
@@ -171,24 +171,52 @@ document.addEventListener('DOMContentLoaded', () => applyLanguage(currentLang));
    }, 3000);
 })();
 
-// Contact form submission (demo only, no backend wired up)
+// Contact form submission — builds a pre-filled WhatsApp message from the
+// form fields and opens WhatsApp. No backend/email server involved.
+const WHATSAPP_NUMBER = '6285257930183';
 const contactForm = document.querySelector('.contact-form');
+
 if (contactForm) {
    contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      if (!contactForm.checkValidity()) {
+         contactForm.reportValidity();
+         return;
+      }
+
       const btn = contactForm.querySelector('.btn');
+      const name = contactForm.querySelector('input[type="text"]')?.value.trim() || '';
+      const phone = contactForm.querySelector('input[type="tel"]')?.value.trim() || '';
+      const message = contactForm.querySelector('textarea')?.value.trim() || '';
+
+      const lines = currentLang === 'en'
+         ? [
+              'Hello, I would like to get a quotation.',
+              `Name: ${name}`,
+              phone ? `WhatsApp/Phone: ${phone}` : null,
+              message ? `Message: ${message}` : null,
+           ]
+         : [
+              'Halo, saya ingin mendapatkan penawaran.',
+              `Nama: ${name}`,
+              phone ? `WhatsApp/Telepon: ${phone}` : null,
+              message ? `Pesan: ${message}` : null,
+           ];
+
+      const text = lines.filter(Boolean).join('\n');
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 
       btn.textContent = submitLabels.sending[currentLang];
       btn.disabled = true;
 
+      window.open(url, '_blank', 'noopener');
+
       setTimeout(() => {
-         btn.textContent = submitLabels.sent[currentLang];
-         setTimeout(() => {
-            btn.textContent = submitLabels.idle[currentLang];
-            btn.disabled = false;
-            contactForm.reset();
-         }, 2200);
-      }, 900);
+         btn.textContent = submitLabels.idle[currentLang];
+         btn.disabled = false;
+         contactForm.reset();
+      }, 1200);
    });
 }
 

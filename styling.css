@@ -818,6 +818,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 .contact-form input:focus,.contact-form textarea:focus{outline:2px solid var(--coir-600);outline-offset:1px;border-color:var(--coir-600);}
 .form-row{display:grid;grid-template-columns:1fr;gap:0.85rem;}
 .contact-form .btn{width:100%;}
+.contact-form-note{font-size:0.8rem;color:var(--ink-soft);text-align:center;margin-top:0.25rem;}
 
 /* ---------- Footer ---------- */
 .footer{
