@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', updateActiveMenu);
 
 // Scroll-triggered fade-ins + counters
 const revealTargets = document.querySelectorAll(
-   '.section-head, .p-card, .g-item, .cert-chip, .about-text, .about-stats, .a-stat, .art-card, .t-card, .contact-info, .contact-form, .export-strip'
+   '.section-head, .p-card, .cert-chip, .about-text, .about-stats, .a-stat, .art-card, .t-card, .contact-info, .contact-form, .export-strip'
 );
 revealTargets.forEach(el => el.classList.add('fade-in'));
 
@@ -299,30 +299,6 @@ if (contactForm) {
    });
 })();
 
-// Image lightbox
-function openLightbox(src, alt) {
-   const overlay = document.getElementById('image-lightbox');
-   const img = document.getElementById('lightbox-img');
-   img.src = src;
-   img.alt = alt || '';
-   overlay.classList.add('active');
-   document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox(e) {
-   if (e.target.id === 'image-lightbox' || e.target.classList.contains('lightbox-close')) {
-      document.getElementById('image-lightbox').classList.remove('active');
-      document.body.style.overflow = '';
-   }
-}
-
-document.addEventListener('keydown', (e) => {
-   if (e.key === 'Escape') {
-      document.getElementById('image-lightbox').classList.remove('active');
-      document.body.style.overflow = '';
-   }
-});
-
 // ---------- Scroll progress bar ----------
 (function initScrollProgress() {
    const bar = document.getElementById('scrollProgress');
@@ -376,7 +352,6 @@ document.addEventListener('keydown', (e) => {
    }
    addFloaters('.about-visual-frame', 0.05, false);
    addFloaters('.about-visual-badge', -0.09, false);
-   addFloaters('.g-item', 0.045, true);
    addFloaters('.art-thumb', 0.05, true);
    addFloaters('.p-card-img', 0.035, true);
 
@@ -619,13 +594,13 @@ document.addEventListener('keydown', (e) => {
          keywords: 'cocomesh cocopot cocodisc reklamasi lahan erosi pembibitan custom roll mesh'
       },
       {
-         anchor: 'galeri', icon: 'image', group: { id: 'Galeri', en: 'Gallery' },
-         title: { id: 'Galeri & Sertifikasi', en: 'Gallery & Certification' },
+         anchor: 'tentang', icon: 'badge', group: { id: 'Tentang', en: 'About' },
+         title: { id: 'Sertifikasi', en: 'Certifications' },
          desc: {
-            id: 'Foto fasilitas produksi, loading kontainer, dan sertifikat phytosanitary.',
-            en: 'Photos of the production facility, container loading, and phytosanitary certificate.'
+            id: 'Phytosanitary Certificate, Fumigation ISPM-15, Certificate of Origin, NIB & API-U.',
+            en: 'Phytosanitary Certificate, Fumigation ISPM-15, Certificate of Origin, complete NIB & API-U.'
          },
-         keywords: 'galeri sertifikasi sertifikat phytosanitary foto fasilitas produksi kontainer'
+         keywords: 'sertifikasi sertifikat phytosanitary ispm fumigasi certificate of origin nib api-u'
       },
       {
          anchor: 'tentang', icon: 'badge', group: { id: 'Tentang', en: 'About' },
