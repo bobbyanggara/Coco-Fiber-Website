@@ -2,14 +2,21 @@
 
 Website perusahaan untuk **PT Apa Saja Indonesia** (dikelola oleh CV Kreasi
 Asa Indonesia) — eksportir coco fiber, cocopeat, dan produk turunan sabut
-kelapa. Landing page statis (HTML/CSS/JS) + AI chat assistant lewat
-serverless function di Vercel.
+kelapa. Website multi-halaman statis (HTML/CSS/JS) dengan AI chat assistant
+lewat serverless function di Vercel.
 
 ## Struktur Project
 
 ```
-├── index.html                          Landing page utama
-├── artikel-*.html                      3 halaman artikel/blog
+├── index.html                          Beranda (hero, teaser produk/tentang, testimoni, CTA)
+├── produk.html                         Katalog produk lengkap (spesifikasi, galeri, sertifikasi)
+├── tentang.html                        Profil perusahaan & statistik
+├── blog.html                           Daftar artikel
+├── artikel-*.html                      3 halaman artikel detail
+├── kontak.html                         Form kontak (submit via WhatsApp)
+├── faq.html                            Pertanyaan umum
+├── karir.html                          Halaman karir
+├── kebijakan-privasi.html / syarat-ketentuan.html   Halaman legal
 ├── main.js                             Semua interaksi (menu, i18n, AI chat, dll)
 ├── styling.css                         Semua styling
 ├── api/chat.js                         Serverless function AI chat (Groq)
@@ -19,12 +26,16 @@ serverless function di Vercel.
 └── .env.example                        Contoh env var (GROQ_API_KEY)
 ```
 
+Situs ini multi-page dengan navigasi & footer konsisten di setiap halaman
+(bukan lagi single-page scroll). Menu aktif ditandai otomatis sesuai halaman
+yang sedang dibuka.
+
 ## Checklist Sebelum Go-Live
 
-- [ ] **Isi folder `images/`** — semua tag `<img>` di `index.html` dan
-      halaman artikel masih menunjuk ke file yang belum ada
-      (`images/gallery-coco-fiber.webp`, dll — lihat daftar lengkap dengan
-      `grep -o 'images/[a-zA-Z0-9_.-]*' *.html | sort -u`). Situs akan
+- [ ] **Isi folder `images/`** — banyak tag `<img>` di seluruh halaman
+      (Beranda, Produk, Tentang, Blog, dan artikel) masih menunjuk ke file
+      yang belum ada. Lihat daftar lengkapnya dengan:
+      `grep -oh 'images/[a-zA-Z0-9_.-]*' *.html | sort -u`. Situs akan
       tetap jalan (browser cuma menampilkan gambar rusak/kosong), tapi
       ini wajib diisi foto asli sebelum diumumkan ke publik.
 - [ ] **Set `GROQ_API_KEY`** di Environment Variables Vercel (lihat

@@ -23,14 +23,14 @@
 
 <header class="navbar">
   <div class="nav-wrap">
-    <a href="index.html#home" class="logo"><span class="logo-mark">C</span>CocoFiber.</a>
+    <a href="index.html" class="logo"><span class="logo-mark">C</span>CocoFiber.</a>
 
     <nav class="nav-links" id="navLinks">
-      <a href="index.html#home" data-en="Home">Beranda</a>
-      <a href="index.html#produk" data-en="Products">Produk</a>
-      <a href="index.html#tentang" data-en="About">Tentang</a>
-      <a href="index.html#artikel" data-en="Articles">Artikel</a>
-      <a href="index.html#kontak" data-en="Contact">Kontak</a>
+      <a href="index.html" data-page="index" data-en="Home">Beranda</a>
+      <a href="produk.html" data-page="produk" data-en="Products">Produk</a>
+      <a href="tentang.html" data-page="tentang" data-en="About">Tentang</a>
+      <a href="blog.html" data-page="blog" class="active" data-en="Articles">Artikel</a>
+      <a href="kontak.html" data-page="kontak" data-en="Contact">Kontak</a>
     </nav>
 
     <div class="nav-end">
@@ -57,7 +57,7 @@
 </header>
 
 <section class="section article-detail">
-  <a class="article-back" href="index.html#artikel" data-en="&larr; Back to Articles">
+  <a class="article-back" href="blog.html" data-en="&larr; Back to Articles">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 5l-7 7 7 7"/></svg>
     <span data-en="&larr; Back to Articles">&larr; Kembali ke Artikel</span>
   </a>
@@ -179,7 +179,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="index.html#home" class="logo"><span class="logo-mark">C</span>CocoFiber.</a>
+      <a href="index.html" class="logo"><span class="logo-mark">C</span>CocoFiber.</a>
       <p class="footer-tagline" data-en="The leading coconut fiber &amp; coco peat supplier from East Java, Indonesia. Trusted export partner ready to grow your business.">Pemasok coco fiber &amp; cocopeat terpercaya dari Jawa Timur, Indonesia. Mitra ekspor andalan untuk kebutuhan bisnis Anda.</p>
       <div class="footer-social">
         <a href="https://wa.me/6285257930183" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.892.526 3.66 1.437 5.166L2 22l4.958-1.393A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.524 2 12.001 2zm0 18.135c-1.744 0-3.362-.51-4.727-1.386l-.339-.202-3.075.863.85-3.11-.221-.35A8.106 8.106 0 013.865 12c0-4.487 3.649-8.135 8.136-8.135S20.135 7.513 20.135 12 16.488 20.135 12.001 20.135z"/></svg></a>
@@ -191,9 +191,19 @@
     <div class="footer-col">
       <h4 data-en="Our Products">Produk Kami</h4>
       <ul class="footer-links">
-        <li><a href="index.html#produk" data-en="Coco Fiber">Coco Fiber</a></li>
-        <li><a href="index.html#produk" data-en="Cocopeat">Cocopeat</a></li>
-        <li><a href="index.html#produk" data-en="Derivative Products">Produk Turunan</a></li>
+        <li><a href="produk.html#coco-fiber" data-en="Coco Fiber">Coco Fiber</a></li>
+        <li><a href="produk.html#cocopeat" data-en="Cocopeat">Cocopeat</a></li>
+        <li><a href="produk.html#produk-turunan" data-en="Derivative Products">Produk Turunan</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-en="Company">Perusahaan</h4>
+      <ul class="footer-links">
+        <li><a href="tentang.html" data-en="About Us">Tentang Kami</a></li>
+        <li><a href="blog.html" data-en="Articles">Artikel</a></li>
+        <li><a href="faq.html" data-en="FAQ">FAQ</a></li>
+        <li><a href="karir.html" data-en="Careers">Karir</a></li>
       </ul>
     </div>
 
@@ -210,7 +220,7 @@
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          <a href="mailto:bobby01anggara@gmail.com">bobby01anggara@gmail.com</a>
+          <a href="mailto:bobby01anggara@gmail.com">apasaja@gmail.com</a>
         </li>
       </ul>
     </div>
@@ -218,6 +228,11 @@
 
   <div class="footer-bottom">
     <p class="footer-copy">© 2026 PT Apa Saja Indonesia. <span data-en="All rights reserved.">Semua hak dilindungi.</span></p>
+    <div class="footer-legal-links">
+      <a href="kebijakan-privasi.html" data-en="Privacy Policy">Kebijakan Privasi</a>
+      <span aria-hidden="true">·</span>
+      <a href="syarat-ketentuan.html" data-en="Terms &amp; Conditions">Syarat &amp; Ketentuan</a>
+    </div>
     <p class="footer-managed" data-en="Managed by CV Kreasi Asa Indonesia">Dikelola oleh CV Kreasi Asa Indonesia</p>
   </div>
 </footer>
@@ -289,9 +304,6 @@
   <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
   <img id="lightbox-img" src="" alt="">
 </div>
-
-<script src="main.js"></script>
-</body>
 
 <script src="main.js"></script>
 </body>

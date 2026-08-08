@@ -32,24 +32,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
    });
 });
 
-// Active nav link on scroll
-function updateActiveMenu() {
-   const sections = document.querySelectorAll('section[id]');
-   const links = document.querySelectorAll('.nav-links a');
-   let current = 'home';
-
-   sections.forEach(section => {
-      if (window.scrollY >= section.offsetTop - 160) {
-         current = section.getAttribute('id');
-      }
-   });
-
-   links.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
-   });
-}
-window.addEventListener('scroll', updateActiveMenu);
-document.addEventListener('DOMContentLoaded', updateActiveMenu);
+// Active nav link is set server-side per page (see data-page/class="active"
+// in each page's navbar). No scroll-spy needed since this is now a
+// multi-page site rather than a single scrolling page.
 
 // Scroll-triggered fade-ins + counters
 const revealTargets = document.querySelectorAll(

@@ -37,6 +37,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 html{scroll-behavior:smooth;}
+.p-card[id],.faq-item[id],section[id]{scroll-margin-top:90px;}
 
 body{
   font-family:var(--sans);
@@ -98,6 +99,43 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 }
 .btn-ghost:hover{border-color:#25D366;}
 .btn-ghost:hover::before{transform:scaleX(1);}
+
+.btn-outline{
+  background:transparent;border-color:var(--line-strong);color:var(--ink);
+}
+.btn-outline:hover{border-color:var(--coir-600);color:var(--coir-600);background:var(--kraft-200);}
+
+.section-more{text-align:center;margin-top:2.4rem;}
+
+/* ---------- CTA Banner ---------- */
+.cta-banner{
+  background:linear-gradient(135deg,var(--husk-950),var(--husk-800));
+  padding:4rem 1.25rem;
+  text-align:center;
+}
+.cta-banner-inner{max-width:640px;margin:0 auto;}
+.cta-banner h2{color:#fff;font-size:clamp(1.7rem,3.2vw,2.3rem);margin-bottom:0.9rem;}
+.cta-banner p{color:rgba(247,243,236,0.75);font-size:1.02rem;line-height:1.65;margin-bottom:1.9rem;}
+.cta-banner-actions{display:flex;flex-wrap:wrap;gap:0.9rem;justify-content:center;}
+.btn-outline-light{
+  background:transparent;border-color:rgba(255,255,255,0.4);color:#fff;
+}
+.btn-outline-light:hover{border-color:#25D366;background:rgba(37,211,102,0.12);}
+
+/* ---------- Page Header (non-home pages) ---------- */
+.page-header{
+  background:var(--kraft-200);
+  padding:6.5rem 1.25rem 3rem;
+  text-align:center;
+  border-bottom:1px solid var(--line-strong);
+}
+.page-header-inner{max-width:720px;margin:0 auto;}
+.breadcrumb{font-size:0.82rem;color:var(--ink-soft);margin-bottom:0.9rem;}
+.breadcrumb a{color:var(--ink-soft);text-decoration:none;}
+.breadcrumb a:hover{color:var(--coir-600);}
+.breadcrumb span{margin:0 0.35rem;}
+.page-header h1{font-size:clamp(1.9rem,4vw,2.6rem);margin-bottom:0.7rem;}
+.page-header-sub{color:var(--ink-soft);font-size:1rem;line-height:1.6;}
 
 /* ---------- Scroll progress bar ---------- */
 .scroll-progress{
@@ -879,6 +917,9 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 }
 .footer-copy{font-size:0.76rem;color:rgba(247,243,236,0.5);text-align:center;}
 .footer-managed{font-size:0.76rem;color:rgba(247,243,236,0.36);text-align:center;}
+.footer-legal-links{display:flex;align-items:center;gap:0.5rem;font-size:0.76rem;color:rgba(247,243,236,0.5);}
+.footer-legal-links a{color:rgba(247,243,236,0.7);text-decoration:none;}
+.footer-legal-links a:hover{color:var(--coir-500);text-decoration:underline;}
 
 /* ---------- Scroll reveal ---------- */
 .fade-in{opacity:0;transform:translateY(28px) scale(0.97);transition:opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);}
@@ -1139,7 +1180,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   .contact-grid{grid-template-columns:1fr 1.2fr;align-items:start;}
 
   .footer-grid{
-    grid-template-columns:1.4fr 1fr 1.2fr;
+    grid-template-columns:1.3fr 0.8fr 0.8fr 1.1fr;
     text-align:left;
   }
   .footer-brand{align-items:flex-start;}
