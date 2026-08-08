@@ -347,17 +347,16 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 
 .p-card-features{list-style:none;margin-bottom:1.1rem;}
 .p-card-features li{
-  font-size:0.86rem;color:var(--ink);padding-left:1.6rem;position:relative;margin-bottom:0.55rem;
+  font-size:0.86rem;color:var(--ink);padding-left:1.7rem;position:relative;margin-bottom:0.6rem;
 }
 .p-card-features li::before{
-  content:'';position:absolute;left:0;top:0.15em;
-  width:18px;height:18px;border-radius:50%;
-  background:var(--frond-700);
+  content:'';position:absolute;left:0;top:0.1em;
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(74,93,69,0.12);
 }
-.p-card-features li::after{
-  content:'';position:absolute;left:6px;top:0.42em;
-  width:6px;height:3px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;
-  transform:rotate(-45deg);
+.p-card-features li .feat-icon{
+  position:absolute;left:3px;top:0.24em;
+  width:14px;height:14px;color:var(--frond-700);
 }
 
 .p-card-actions{display:flex;flex-wrap:wrap;gap:0.65rem;margin-bottom:1.2rem;}
