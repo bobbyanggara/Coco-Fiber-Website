@@ -595,15 +595,6 @@ if (contactForm) {
       },
       {
          anchor: 'tentang', icon: 'badge', group: { id: 'Tentang', en: 'About' },
-         title: { id: 'Sertifikasi', en: 'Certifications' },
-         desc: {
-            id: 'Phytosanitary Certificate, Fumigation ISPM-15, Certificate of Origin, NIB & API-U.',
-            en: 'Phytosanitary Certificate, Fumigation ISPM-15, Certificate of Origin, complete NIB & API-U.'
-         },
-         keywords: 'sertifikasi sertifikat phytosanitary ispm fumigasi certificate of origin nib api-u'
-      },
-      {
-         anchor: 'tentang', icon: 'badge', group: { id: 'Tentang', en: 'About' },
          title: { id: 'Tentang Kami', en: 'About Us' },
          desc: {
             id: 'Dari petani lokal ke buyer dunia, kapasitas ±100 ton/bulan, FOB/CIF.',
