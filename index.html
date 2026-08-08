@@ -22,10 +22,15 @@
     <a href="#home" class="logo"><span class="logo-mark">C</span>CocoFiber.</a>
 
     <nav class="nav-links" id="navLinks">
+      <button type="button" class="nav-search-mobile" id="searchTriggerMobile" aria-label="Cari" data-en-aria="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <span data-en="Search">Cari</span>
+      </button>
       <a href="#home" data-en="Home">Beranda</a>
-      <a href="#produk" data-en="Products">Produk</a>
       <a href="#tentang" data-en="About">Tentang</a>
+      <a href="#produk" data-en="Products">Produk</a>
       <a href="#artikel" data-en="Articles">Artikel</a>
+      <a href="#testimoni" data-en="Testimonials">Testimoni</a>
       <a href="#kontak" data-en="Contact">Kontak</a>
     </nav>
 
@@ -145,12 +150,12 @@
     <h2 data-en="Coconut Fiber Specifications">Spesifikasi Coconut Fiber</h2>
   </div>
 
-  <div class="product-slider">
-    <div class="product-track" id="productTrack">
+  <div class="product-grid" id="productTrack">
 
       <!-- Coco Fiber -->
       <article class="p-card">
         <div class="p-card-img">
+          <span class="p-card-index" aria-hidden="true">01</span>
           <img src="images/gallery-coco-fiber.webp" alt="Coco Fiber dalam bal siap ekspor" loading="lazy">
           <span class="p-card-tag" data-en="Premium Quality Baled Coco Fiber">Coco Fiber Kualitas Ekspor, Kemasan Bal</span>
         </div>
@@ -179,11 +184,6 @@
               WhatsApp
             </a>
           </div>
-
-          <button type="button" class="p-card-more-toggle" aria-expanded="false" data-show="Lihat Produk Selengkapnya" data-hide="Sembunyikan Detail" data-en-show="View Full Product Details" data-en-hide="Hide Details">
-            <span class="p-card-more-label" data-show="Lihat Produk Selengkapnya" data-hide="Sembunyikan Detail" data-en-show="View Full Product Details" data-en-hide="Hide Details">Lihat Produk Selengkapnya</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
 
           <div class="p-card-details">
             <div class="p-card-table-wrap">
@@ -216,6 +216,7 @@
       <!-- Cocopeat -->
       <article class="p-card">
         <div class="p-card-img">
+          <span class="p-card-index" aria-hidden="true">02</span>
           <img src="images/gallery-cocopeat.webp" alt="Cocopeat block media tanam" loading="lazy">
           <span class="p-card-tag" data-en="Washed &amp; Unwashed · Low / High EC">Washed &amp; Unwashed · Low / High EC</span>
         </div>
@@ -244,11 +245,6 @@
               WhatsApp
             </a>
           </div>
-
-          <button type="button" class="p-card-more-toggle" aria-expanded="false" data-show="Lihat Produk Selengkapnya" data-hide="Sembunyikan Detail" data-en-show="View Full Product Details" data-en-hide="Hide Details">
-            <span class="p-card-more-label" data-show="Lihat Produk Selengkapnya" data-hide="Sembunyikan Detail" data-en-show="View Full Product Details" data-en-hide="Hide Details">Lihat Produk Selengkapnya</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
 
           <div class="p-card-details">
             <div class="p-card-table-wrap">
@@ -281,6 +277,7 @@
       <!-- Produk Turunan -->
       <article class="p-card">
         <div class="p-card-img">
+          <span class="p-card-index" aria-hidden="true">03</span>
           <img src="images/cocomesh.webp" alt="Cocomesh dan produk turunan coco fiber" loading="lazy">
           <span class="p-card-tag" data-en="Cocomesh · Coco Pot · Coco Disc">Cocomesh · Cocopot · Cocodisc</span>
         </div>
@@ -310,11 +307,6 @@
             </a>
           </div>
 
-          <button type="button" class="p-card-more-toggle" aria-expanded="false" data-show="Lihat Produk Selengkapnya" data-hide="Sembunyikan Detail" data-en-show="View Full Product Details" data-en-hide="Hide Details">
-            <span class="p-card-more-label" data-show="Lihat Produk Selengkapnya" data-hide="Sembunyikan Detail" data-en-show="View Full Product Details" data-en-hide="Hide Details">Lihat Produk Selengkapnya</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-
           <div class="p-card-details">
             <div class="p-card-table-wrap">
               <p class="p-card-table-title" data-en="Product Types">Jenis Produk</p>
@@ -328,7 +320,6 @@
         </div>
       </article>
 
-    </div>
   </div>
 
   <div class="export-strip">

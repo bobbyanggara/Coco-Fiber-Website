@@ -208,50 +208,7 @@ if (contactForm) {
    });
 }
 
-// Product card "Lihat Spesifikasi & Harga" toggle (collapsed by default, per card)
-(function initProductDetailsToggle() {
-   const toggles = document.querySelectorAll('.p-card-more-toggle');
-   if (!toggles.length) return;
-
-   function getLang() {
-      return document.documentElement.lang === 'en' ? 'en' : 'id';
-   }
-
-   function renderLabel(toggle) {
-      const label = toggle.querySelector('.p-card-more-label');
-      if (!label) return;
-      const expanded = toggle.getAttribute('aria-expanded') === 'true';
-      const lang = getLang();
-      label.textContent = expanded
-         ? (lang === 'en' ? label.dataset.enHide : label.dataset.hide)
-         : (lang === 'en' ? label.dataset.enShow : label.dataset.show);
-   }
-
-   toggles.forEach(toggle => {
-      const details = toggle.nextElementSibling;
-      if (!details || !details.classList.contains('p-card-details')) return;
-
-      toggle.addEventListener('click', () => {
-         const expanded = details.classList.toggle('is-open');
-         toggle.setAttribute('aria-expanded', String(expanded));
-         renderLabel(toggle);
-
-         if (!expanded) {
-            toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-         }
-      });
-
-      renderLabel(toggle);
-   });
-
-   // Keep labels in sync when language switch is used
-   const langSwitchBtn = document.getElementById('langSwitch');
-   if (langSwitchBtn) {
-      langSwitchBtn.addEventListener('click', () => {
-         setTimeout(() => toggles.forEach(renderLabel), 0);
-      });
-   }
-})();
+// Product specs are now always fully visible (no more expand/collapse toggle).
 
 // FAQ accordion (article pages)
 (function initFaqAccordion() {
@@ -800,6 +757,23 @@ if (contactForm) {
 
    trigger.addEventListener('click', openSearch);
    if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+
+   // Secondary search entry point shown inside the mobile nav dropdown
+   const mobileTrigger = document.getElementById('searchTriggerMobile');
+   if (mobileTrigger) {
+      mobileTrigger.addEventListener('click', () => {
+         const navLinks = document.getElementById('navLinks');
+         const mobileMenuBtn = document.getElementById('mobileMenu');
+         if (navLinks && navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+            if (mobileMenuBtn) {
+               mobileMenuBtn.classList.remove('active');
+               mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            }
+         }
+         openSearch();
+      });
+   }
 
    overlay.addEventListener('click', (e) => {
       if (e.target === overlay) closeSearch();
