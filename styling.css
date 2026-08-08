@@ -645,7 +645,7 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   padding:1.1rem;border-radius:var(--radius-lg);
   background:
     linear-gradient(160deg, rgba(28,20,16,0.88) 0%, rgba(58,44,34,0.82) 55%, rgba(74,93,69,0.55) 100%),
-    url('images/gallery-coco-fiber.jpg');
+    url('images/gallery-coco-fiber.webp');
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
