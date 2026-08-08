@@ -135,6 +135,22 @@ function applyLanguage(lang) {
       el.setAttribute('placeholder', lang === 'en' ? el.getAttribute('data-en-placeholder') : el.dataset.idPlaceholder);
    });
 
+   // aria-label swap
+   document.querySelectorAll('[data-en-aria]').forEach(el => {
+      if (!el.dataset.idAria) {
+         el.dataset.idAria = el.getAttribute('aria-label') || '';
+      }
+      el.setAttribute('aria-label', lang === 'en' ? el.getAttribute('data-en-aria') : el.dataset.idAria);
+   });
+
+   // title swap
+   document.querySelectorAll('[data-en-title]').forEach(el => {
+      if (!el.dataset.idTitle) {
+         el.dataset.idTitle = el.getAttribute('title') || '';
+      }
+      el.setAttribute('title', lang === 'en' ? el.getAttribute('data-en-title') : el.dataset.idTitle);
+   });
+
    // Reset submit button label to current idle state in the right language
    const submitBtn = document.querySelector('.contact-form .btn');
    if (submitBtn && !submitBtn.disabled) {
@@ -532,5 +548,334 @@ document.addEventListener('keydown', (e) => {
 
    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && chatWindow.classList.contains('open')) closeChat();
+   });
+})();
+
+// ---------- Site Search ----------
+(function initSiteSearch() {
+   const trigger = document.getElementById('searchTrigger');
+   const overlay = document.getElementById('searchOverlay');
+   if (!trigger || !overlay) return;
+
+   const input = document.getElementById('searchInput');
+   const resultsBox = document.getElementById('searchResults');
+   const closeBtn = document.getElementById('searchClose');
+   const hintEl = document.getElementById('searchHint');
+
+   // On article pages there is no #home / #produk etc. in this document,
+   // so search results should link back to index.html with the anchor.
+   const onIndexPage = !!document.querySelector('main, #home, #produk, #kontak') &&
+      /\/(index\.html)?$/.test(window.location.pathname);
+
+   function hrefFor(anchor) {
+      return onIndexPage ? `#${anchor}` : `index.html#${anchor}`;
+   }
+
+   function getLang() {
+      return document.documentElement.lang === 'en' ? 'en' : 'id';
+   }
+
+   // Static search index: each entry has bilingual title/desc, a target
+   // anchor id on the homepage, and an icon key. Kept in sync by hand with
+   // the sections in index.html (products, about, articles, testimonials,
+   // gallery, contact).
+   const iconPaths = {
+      product: '<path d="M20 7L12 3 4 7l8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/>',
+      leaf: '<path d="M4 20c8-1 13-6 15-15C10 6 5 11 4 20z"/><path d="M8.5 15.5C11 13 13.5 10.5 16 8"/>',
+      article: '<path d="M4 4h13a2 2 0 0 1 2 2v14H6a2 2 0 0 1-2-2V4z"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+      building: '<path d="M4 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/>',
+      star: '<path d="M12 2.5l2.9 6.1 6.6.7-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.7z"/>',
+      image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5-9 9"/>',
+      mail: '<path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/>',
+      badge: '<path d="M9 2h6a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h1V4a2 2 0 0 1 2-2z"/><path d="M9 12h6M9 16h6M9 8h2"/>'
+   };
+
+   const searchIndex = [
+      {
+         anchor: 'produk', icon: 'product', group: { id: 'Produk', en: 'Products' },
+         title: { id: 'Coco Fiber', en: 'Coco Fiber' },
+         desc: {
+            id: 'Coco fiber kualitas ekspor, kemasan bal, untuk industri dan pertanian.',
+            en: 'Export-quality coco fiber, baled packaging, for industry and agriculture.'
+         },
+         keywords: 'coco fiber sabut kelapa serat matras jok mobil geotekstil bal 300 ton export coir'
+      },
+      {
+         anchor: 'produk', icon: 'leaf', group: { id: 'Produk', en: 'Products' },
+         title: { id: 'Cocopeat', en: 'Cocopeat' },
+         desc: {
+            id: 'Media tanam organik dari sabut kelapa, washed & unwashed, low/high EC.',
+            en: 'Organic growing medium from coconut husk, washed & unwashed, low/high EC.'
+         },
+         keywords: 'cocopeat media tanam hidroponik pembibitan block 5kg low ec high ec washed unwashed'
+      },
+      {
+         anchor: 'produk', icon: 'building', group: { id: 'Produk', en: 'Products' },
+         title: { id: 'Produk Turunan: Cocomesh, Cocopot, Cocodisc', en: 'Derivative Products: Cocomesh, Coco Pot, Coco Disc' },
+         desc: {
+            id: 'Cocomesh untuk reklamasi lahan, cocopot & cocodisc untuk pembibitan.',
+            en: 'Cocomesh for land reclamation, coco pot & coco disc for seedling nurseries.'
+         },
+         keywords: 'cocomesh cocopot cocodisc reklamasi lahan erosi pembibitan custom roll mesh'
+      },
+      {
+         anchor: 'galeri', icon: 'image', group: { id: 'Galeri', en: 'Gallery' },
+         title: { id: 'Galeri & Sertifikasi', en: 'Gallery & Certification' },
+         desc: {
+            id: 'Foto fasilitas produksi, loading kontainer, dan sertifikat phytosanitary.',
+            en: 'Photos of the production facility, container loading, and phytosanitary certificate.'
+         },
+         keywords: 'galeri sertifikasi sertifikat phytosanitary foto fasilitas produksi kontainer'
+      },
+      {
+         anchor: 'tentang', icon: 'badge', group: { id: 'Tentang', en: 'About' },
+         title: { id: 'Tentang Kami', en: 'About Us' },
+         desc: {
+            id: 'Dari petani lokal ke buyer dunia, kapasitas ±100 ton/bulan, FOB/CIF.',
+            en: 'From local farmers to global buyers, ±100 tons/month capacity, FOB/CIF.'
+         },
+         keywords: 'tentang perusahaan profil sidoarjo jawa timur kapasitas fob cif waktu produksi'
+      },
+      {
+         anchor: 'artikel', icon: 'article', group: { id: 'Artikel', en: 'Articles' },
+         title: { id: 'Manfaat Coco Fiber untuk Industri', en: 'Coco Fiber for Industry' },
+         desc: {
+            id: 'Matras, jok mobil, hingga geotekstil penahan erosi.',
+            en: 'Mattresses, automotive seats, and erosion-control geotextiles.'
+         },
+         keywords: 'artikel coco fiber industri matras jok mobil geotekstil manufaktur'
+      },
+      {
+         anchor: 'artikel', icon: 'article', group: { id: 'Artikel', en: 'Articles' },
+         title: { id: 'Cocopeat sebagai Media Tanam', en: 'Cocopeat as a Growing Medium' },
+         desc: {
+            id: 'Alasan petani dan pekebun hidroponik memilih cocopeat.',
+            en: 'Why farmers and hydroponic growers choose cocopeat.'
+         },
+         keywords: 'artikel cocopeat media tanam hidroponik petani pekebun'
+      },
+      {
+         anchor: 'artikel', icon: 'article', group: { id: 'Artikel', en: 'Articles' },
+         title: { id: 'Cocomesh untuk Reklamasi Lahan', en: 'Cocomesh for Land Reclamation' },
+         desc: {
+            id: 'Solusi alami pengendali erosi untuk lahan bekas tambang.',
+            en: 'A natural erosion-control solution for reclaimed mining land.'
+         },
+         keywords: 'artikel cocomesh reklamasi lahan erosi tambang solusi alami'
+      },
+      {
+         anchor: 'testimoni', icon: 'star', group: { id: 'Testimoni', en: 'Testimonials' },
+         title: { id: 'Testimoni Pelanggan', en: 'Customer Testimonials' },
+         desc: {
+            id: 'Kata pengrajin furniture, pemilik nursery, dan reseller pertanian.',
+            en: 'From a furniture craftsman, a nursery owner, and an agriculture reseller.'
+         },
+         keywords: 'testimoni pelanggan ulasan review ahmad fauzi budi santoso dewi lestari'
+      },
+      {
+         anchor: 'kontak', icon: 'mail', group: { id: 'Kontak', en: 'Contact' },
+         title: { id: 'Dapatkan Penawaran Anda', en: 'Get Your Offer' },
+         desc: {
+            id: 'Hubungi kami lewat WhatsApp, email, atau form kontak.',
+            en: 'Reach us via WhatsApp, email, or the contact form.'
+         },
+         keywords: 'kontak hubungi whatsapp email form penawaran quotation alamat'
+      }
+   ];
+
+   let activeIndex = -1;
+   let currentResults = [];
+
+   function normalize(str) {
+      return (str || '')
+         .toLowerCase()
+         .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // strip accents defensively
+   }
+
+   function escapeHtml(str) {
+      return (str || '').replace(/[&<>"']/g, (c) => ({
+         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+   }
+
+   function highlight(text, query) {
+      const safeText = escapeHtml(text);
+      if (!query) return safeText;
+      const safeQuery = escapeHtml(query).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (!safeQuery) return safeText;
+      try {
+         return safeText.replace(new RegExp(`(${safeQuery})`, 'ig'), '<mark>$1</mark>');
+      } catch (err) {
+         return safeText;
+      }
+   }
+
+   function scoreEntry(entry, terms, lang) {
+      const haystack = normalize(
+         `${entry.title.id} ${entry.title.en} ${entry.desc.id} ${entry.desc.en} ${entry.keywords}`
+      );
+      let score = 0;
+      for (const term of terms) {
+         if (!term) continue;
+         const titleNorm = normalize(entry.title[lang]);
+         if (titleNorm.startsWith(term)) score += 6;
+         else if (titleNorm.includes(term)) score += 4;
+         else if (haystack.includes(term)) score += 1;
+         else return -1; // every term must match somewhere
+      }
+      return score;
+   }
+
+   function runSearch(rawQuery) {
+      const lang = getLang();
+      const query = rawQuery.trim();
+
+      if (!query) {
+         currentResults = [];
+         activeIndex = -1;
+         resultsBox.innerHTML = '';
+         if (hintEl) resultsBox.appendChild(hintEl);
+         return;
+      }
+
+      const terms = normalize(query).split(/\s+/).filter(Boolean);
+
+      const scored = searchIndex
+         .map(entry => ({ entry, score: scoreEntry(entry, terms, lang) }))
+         .filter(r => r.score > 0)
+         .sort((a, b) => b.score - a.score)
+         .slice(0, 8);
+
+      currentResults = scored.map(r => r.entry);
+      activeIndex = currentResults.length ? 0 : -1;
+      renderResults(query, lang);
+   }
+
+   function renderResults(query, lang) {
+      resultsBox.innerHTML = '';
+
+      if (!currentResults.length) {
+         const empty = document.createElement('div');
+         empty.className = 'search-empty';
+         const noResultsLabel = lang === 'en' ? 'No results found' : 'Tidak ada hasil ditemukan';
+         const tryLabel = lang === 'en' ? 'Try a different keyword.' : 'Coba kata kunci lain.';
+         empty.innerHTML = `<strong>${escapeHtml(noResultsLabel)}</strong>${escapeHtml(tryLabel)}`;
+         resultsBox.appendChild(empty);
+         return;
+      }
+
+      let lastGroup = null;
+      currentResults.forEach((entry, i) => {
+         const groupLabel = entry.group[lang];
+         if (groupLabel !== lastGroup) {
+            const label = document.createElement('div');
+            label.className = 'search-group-label';
+            label.textContent = groupLabel;
+            resultsBox.appendChild(label);
+            lastGroup = groupLabel;
+         }
+
+         const item = document.createElement('a');
+         item.href = hrefFor(entry.anchor);
+         item.className = 'search-result' + (i === activeIndex ? ' active' : '');
+         item.setAttribute('role', 'option');
+         item.dataset.index = String(i);
+
+         const iconSvg = iconPaths[entry.icon] || iconPaths.article;
+         item.innerHTML = `
+            <span class="search-result-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconSvg}</svg></span>
+            <span class="search-result-text">
+               <strong>${highlight(entry.title[lang], query)}</strong>
+               <p>${escapeHtml(entry.desc[lang])}</p>
+            </span>
+            <svg class="search-result-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+         `;
+
+         item.addEventListener('click', () => {
+            closeSearch();
+         });
+         item.addEventListener('mouseenter', () => {
+            activeIndex = i;
+            updateActiveClasses();
+         });
+
+         resultsBox.appendChild(item);
+      });
+   }
+
+   function updateActiveClasses() {
+      resultsBox.querySelectorAll('.search-result').forEach(el => {
+         const isActive = Number(el.dataset.index) === activeIndex;
+         el.classList.toggle('active', isActive);
+         if (isActive) el.scrollIntoView({ block: 'nearest' });
+      });
+   }
+
+   function openSearch() {
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('search-open');
+      // Close other overlays that might compete for attention/space
+      const chatWindow = document.getElementById('aiChatWindow');
+      if (chatWindow) chatWindow.classList.remove('open');
+      const fab = document.getElementById('fabContact');
+      if (fab) fab.classList.remove('open');
+
+      input.value = '';
+      runSearch('');
+      setTimeout(() => input.focus(), 50);
+   }
+
+   function closeSearch() {
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('search-open');
+   }
+
+   trigger.addEventListener('click', openSearch);
+   if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+
+   overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeSearch();
+   });
+
+   input.addEventListener('input', (e) => runSearch(e.target.value));
+
+   input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+         e.preventDefault();
+         if (!currentResults.length) return;
+         activeIndex = (activeIndex + 1) % currentResults.length;
+         updateActiveClasses();
+      } else if (e.key === 'ArrowUp') {
+         e.preventDefault();
+         if (!currentResults.length) return;
+         activeIndex = (activeIndex - 1 + currentResults.length) % currentResults.length;
+         updateActiveClasses();
+      } else if (e.key === 'Enter') {
+         e.preventDefault();
+         if (activeIndex >= 0 && currentResults[activeIndex]) {
+            window.location.href = hrefFor(currentResults[activeIndex].anchor);
+            closeSearch();
+         }
+      } else if (e.key === 'Escape') {
+         closeSearch();
+      }
+   });
+
+   // Global shortcuts: Ctrl/Cmd+K to open, Esc to close from anywhere
+   document.addEventListener('keydown', (e) => {
+      const isMac = navigator.platform.toUpperCase().includes('MAC');
+      const modifier = isMac ? e.metaKey : e.ctrlKey;
+      if (modifier && e.key.toLowerCase() === 'k') {
+         e.preventDefault();
+         if (overlay.classList.contains('open')) {
+            closeSearch();
+         } else {
+            openSearch();
+         }
+      } else if (e.key === 'Escape' && overlay.classList.contains('open')) {
+         closeSearch();
+      }
    });
 })();

@@ -26,6 +26,9 @@
     </nav>
 
     <div class="nav-end">
+      <button type="button" class="search-trigger" id="searchTrigger" aria-label="Cari" data-en-aria="Search" title="Cari (Ctrl+K)" data-en-title="Search (Ctrl+K)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
       <button type="button" class="lang-switch" id="langSwitch" data-lang="id" aria-label="Ganti ke English" title="Switch to English">
         <svg viewBox="0 0 36 36" class="flag-icon flag-id" aria-hidden="true"><circle cx="18" cy="18" r="18" fill="#CE1126"/><path d="M0 18a18 18 0 0 0 36 0z" fill="#F8FAFC"/></svg>
         <svg viewBox="0 0 36 36" class="flag-icon flag-en" aria-hidden="true">
@@ -278,14 +281,34 @@
   </form>
 </div>
 
+<!-- Search overlay -->
+<div id="searchOverlay" class="search-overlay" aria-hidden="true">
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Cari di situs">
+    <div class="search-input-row">
+      <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" class="search-input" autocomplete="off" spellcheck="false"
+        placeholder="Cari produk, artikel, atau info lainnya..."
+        data-en-placeholder="Search products, articles, or anything else...">
+      <button type="button" class="search-close" id="searchClose" aria-label="Tutup" data-en-aria="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="search-results" id="searchResults">
+      <p class="search-hint" id="searchHint" data-en="Try &quot;cocopeat&quot;, &quot;sertifikasi&quot;, or &quot;kontak&quot;">Coba "cocopeat", "sertifikasi", atau "kontak"</p>
+    </div>
+    <div class="search-footer">
+      <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> <span data-en="navigate">navigasi</span></span>
+      <span><kbd>&crarr;</kbd> <span data-en="select">pilih</span></span>
+      <span><kbd>Esc</kbd> <span data-en="close">tutup</span></span>
+    </div>
+  </div>
+</div>
+
 <!-- Lightbox -->
 <div id="image-lightbox" class="lightbox-overlay" onclick="closeLightbox(event)">
   <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
   <img id="lightbox-img" src="" alt="">
 </div>
-
-<script src="main.js"></script>
-</body>
 
 <script src="main.js"></script>
 </body>
