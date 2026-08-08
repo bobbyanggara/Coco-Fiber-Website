@@ -443,40 +443,6 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
 .p-card-table:not(.p-card-table-spec) th:first-child,
 .p-card-table:not(.p-card-table-spec) td:first-child{width:50%;font-family:var(--sans);}
 
-/* ---------- Derivative products dropdown (kept separate, not a 3rd grid card) ---------- */
-.derivative-block{
-  margin-top:1.6rem;
-  padding:1.3rem 1.4rem;
-  background:var(--kraft-200);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-}
-.derivative-toggle{margin-bottom:0;}
-.derivative-toggle[aria-expanded="true"]{margin-bottom:1.2rem;}
-.derivative-details{
-  background:var(--card);
-  border-radius:var(--radius-sm);
-  padding:1.2rem 1.3rem 1.4rem;
-  border:1px solid var(--line);
-}
-.derivative-header{
-  display:flex;align-items:center;gap:0.9rem;
-  margin-bottom:1rem;
-}
-.derivative-thumb{
-  width:76px;height:76px;flex-shrink:0;
-  border-radius:12px;overflow:hidden;
-  background:linear-gradient(135deg,var(--kraft-200),var(--kraft-100));
-}
-.derivative-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
-.derivative-heading .p-card-eyebrow{margin-bottom:0.2rem;}
-.derivative-heading h3{margin-bottom:0.2rem;}
-.derivative-subtag{
-  display:inline-block;font-size:0.75rem;font-weight:600;color:var(--ink-soft);
-}
-.derivative-details .p-card-quickspecs,
-.derivative-details .p-card-table-wrap{margin-bottom:1.1rem;}
-.derivative-details .p-card-actions{margin-bottom:1.3rem;}
 
 .slider-arrow{
   display:none;
