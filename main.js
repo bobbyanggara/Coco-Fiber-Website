@@ -237,6 +237,22 @@ if (contactForm) {
    }
 })();
 
+// FAQ accordion (article pages)
+(function initFaqAccordion() {
+   const items = document.querySelectorAll('.faq-item');
+   if (!items.length) return;
+
+   items.forEach(item => {
+      const trigger = item.querySelector('.faq-trigger');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', () => {
+         const isOpen = item.classList.toggle('is-open');
+         trigger.setAttribute('aria-expanded', String(isOpen));
+      });
+   });
+})();
+
 // Floating contact button (WhatsApp / Email chooser)
 (function initFabContact() {
    const fab = document.getElementById('fabContact');
