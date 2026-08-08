@@ -459,12 +459,21 @@ h1,h2,h3{font-family:var(--display);color:var(--husk-950);font-weight:600;letter
   padding:1.2rem 1.3rem 1.4rem;
   border:1px solid var(--line);
 }
-.derivative-img{
-  position:relative;overflow:hidden;border-radius:12px;
-  aspect-ratio:21/9;margin-bottom:1.1rem;
+.derivative-header{
+  display:flex;align-items:center;gap:0.9rem;
+  margin-bottom:1rem;
+}
+.derivative-thumb{
+  width:76px;height:76px;flex-shrink:0;
+  border-radius:12px;overflow:hidden;
   background:linear-gradient(135deg,var(--kraft-200),var(--kraft-100));
 }
-.derivative-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.derivative-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.derivative-heading .p-card-eyebrow{margin-bottom:0.2rem;}
+.derivative-heading h3{margin-bottom:0.2rem;}
+.derivative-subtag{
+  display:inline-block;font-size:0.75rem;font-weight:600;color:var(--ink-soft);
+}
 .derivative-details .p-card-quickspecs,
 .derivative-details .p-card-table-wrap{margin-bottom:1.1rem;}
 .derivative-details .p-card-actions{margin-bottom:1.3rem;}
