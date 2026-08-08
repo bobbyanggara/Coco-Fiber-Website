@@ -307,6 +307,112 @@ document.addEventListener('keydown', (e) => {
    }
 });
 
+// ---------- Scroll progress bar ----------
+(function initScrollProgress() {
+   const bar = document.getElementById('scrollProgress');
+   if (!bar) return;
+
+   function update() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      bar.style.width = pct + '%';
+   }
+
+   window.addEventListener('scroll', update, { passive: true });
+   window.addEventListener('resize', update);
+   update();
+})();
+
+// ---------- Navbar "scrolled" state ----------
+(function initNavbarScroll() {
+   const navbar = document.querySelector('.navbar');
+   if (!navbar) return;
+
+   function update() {
+      navbar.classList.toggle('scrolled', window.scrollY > 30);
+   }
+
+   window.addEventListener('scroll', update, { passive: true });
+   update();
+})();
+
+// ---------- Parallax scroll effects ----------
+// Depth-layered movement across sections: hero background/content move at
+// different speeds, and key image blocks drift gently as they cross the
+// viewport. Fully skipped for prefers-reduced-motion.
+(function initParallax() {
+   const heroBg = document.getElementById('heroBg');
+   const heroInner = document.getElementById('heroInner');
+
+   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+   if (reduceMotion) return;
+
+   // Collect floating layers: { el, strength }. Positive strength drifts
+   // with scroll direction, negative drifts against it (creates separation
+   // between overlapping elements like the about photo + its floating badge).
+   const floaters = [];
+   function addFloaters(selector, baseStrength, alternate) {
+      document.querySelectorAll(selector).forEach((el, i) => {
+         const strength = alternate ? (i % 2 === 0 ? baseStrength : -baseStrength) : baseStrength;
+         floaters.push({ el, strength });
+      });
+   }
+   addFloaters('.about-visual-frame', 0.05, false);
+   addFloaters('.about-visual-badge', -0.09, false);
+   addFloaters('.g-item', 0.045, true);
+   addFloaters('.art-thumb', 0.05, true);
+   addFloaters('.p-card-img', 0.035, true);
+
+   // Lighter movement on narrow viewports keeps things calm on mobile
+   const isNarrow = window.innerWidth < 640;
+   const heroBgFactor = isNarrow ? 0.16 : 0.28;
+   const heroInnerFactor = isNarrow ? 0.06 : 0.12;
+   const floatCap = isNarrow ? 14 : 26;
+
+   let viewportH = window.innerHeight;
+   let ticking = false;
+
+   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+   function update() {
+      const scrollY = window.scrollY;
+
+      if (heroBg) {
+         heroBg.style.transform = `translate3d(0, ${scrollY * heroBgFactor}px, 0)`;
+      }
+      if (heroInner) {
+         const fade = clamp(1 - scrollY / (viewportH * 0.85), 0, 1);
+         heroInner.style.transform = `translate3d(0, ${scrollY * heroInnerFactor}px, 0)`;
+         heroInner.style.opacity = fade;
+      }
+
+      floaters.forEach(({ el, strength }) => {
+         const rect = el.getBoundingClientRect();
+         if (rect.bottom < -150 || rect.top > viewportH + 150) return; // skip offscreen
+         const centerOffset = (rect.top + rect.height / 2) - viewportH / 2;
+         const move = clamp(centerOffset * strength, -floatCap, floatCap);
+         el.style.transform = `translate3d(0, ${move}px, 0)`;
+      });
+
+      ticking = false;
+   }
+
+   window.addEventListener('scroll', () => {
+      if (!ticking) {
+         requestAnimationFrame(update);
+         ticking = true;
+      }
+   }, { passive: true });
+
+   window.addEventListener('resize', () => {
+      viewportH = window.innerHeight;
+      update();
+   });
+
+   update();
+})();
+
 // ---------- AI Chat Widget ----------
 (function initAiChat() {
    const openBtn = document.getElementById('fabAiOpen');

@@ -11,8 +11,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styling.css">
 </head>
-</head>
 <body>
+
+<!-- Scroll progress indicator -->
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
 <!-- Navigation -->
 <header class="navbar">
@@ -52,7 +54,8 @@
 
 <!-- Hero -->
 <section id="home" class="hero">
-  <div class="hero-inner">
+  <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+  <div class="hero-inner" id="heroInner">
     <p class="eyebrow" data-en="PT Apa Saja Indonesia">PT Apa Saja Indonesia</p>
     <h1 class="hero-rotator" id="heroRotator" aria-live="polite">
       <span class="hero-rotator-item i18n-html is-active" data-en="Natural Fiber.<br>Export Quality.">Serat Alami.<br>Kualitas Ekspor.</span><span class="hero-rotator-item i18n-html" data-en="Trusted by Buyers<br>in 35+ Countries.">Dipercaya Buyer<br>di 35+ Negara.</span><span class="hero-rotator-item i18n-html" data-en="From Local Farmers<br>to Global Markets.">Dari Petani Lokal<br>ke Pasar Dunia.</span><span class="hero-rotator-item i18n-html" data-en="ISO Certified.<br>Ready to Ship.">Bersertifikat ISO.<br>Siap Kirim.</span>
